@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{% if title %}
+		<title>{{ title }} - microblog</title>
+		{% else %}
+		<title>DBPedia - Die Hadoopianer</title>
+		{% endif %}
+
+		<meta charset="utf-8">
+		<meta name="author" content="{% for author in authors %}{{author}}, {% endfor %}">
+		<meta name="description" content="A website showing data from DBPedia">
+		<meta name="viewport" content="width=device-width, initial-scale=1"> <!-- to ensure proper rendering on mobile devices -->
+
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/general.css">
+
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.js"></script>
+	</head>
+	<body>
+		{% block content %}{% endblock %}
+
+	</body>
+</html>
