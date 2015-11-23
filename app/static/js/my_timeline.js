@@ -9,28 +9,19 @@ $(document).ready(
 			const month = $('#month-chooser option:selected').text();
 			const language = $('#language-chooser option:selected').text();
 
-			// console.log(day);
-			// console.log(month);
-			// console.log(language);
-
 			get_json(month, day, language).done(
 				result => {
-					console.log("received data!");
 					console.log(result);
+					var timeline_config = create_timeline_config();
+					window.timeline = new TL.Timeline('timeline-embed', result);
+					console.log(window.timeline);
+					//window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
 				}
 			).fail(
 				result => {
 					console.log('AJAX REQUEST FAILED!');
 				}
 			);
-
-			//var timeline_json = get_json(); // you write this part
-		
-			// two arguments: the id of the Timeline container (no '#')
-			// and the JSON object or an instance of TL.TimelineConfig created from
-			// a suitable JSON object
-			
-			//window.timeline = new TL.Timeline('timeline-embed', timeline_json);
 
 			return EVENT_HANDLED;
 		});
@@ -46,4 +37,23 @@ function get_json(month, day, language) {
 		data: {},
 		contentType: 'application/json;charset=UTF-8'
 	});
+}
+
+function create_timeline_config() {
+	return {
+		width:              '100%',
+		height:             '600px',
+		//source:             'path_to_json/or_link_to_googlespreadsheet',
+		embed_id:           'timeline-embed',               //OPTIONAL USE A DIFFERENT DIV ID FOR EMBED
+		start_at_end:       false,                          //OPTIONAL START AT LATEST DATE
+		start_at_slide:     '4',                            //OPTIONAL START AT SPECIFIC SLIDE
+		start_zoom_adjust:  '3',                            //OPTIONAL TWEAK THE DEFAULT ZOOM LEVEL
+		hash_bookmark:      true,                           //OPTIONAL LOCATION BAR HASHES
+		font:               'Bevan-PotanoSans',             //OPTIONAL FONT
+		debug:              true,                           //OPTIONAL DEBUG TO CONSOLE
+		lang:               'en',                           //OPTIONAL LANGUAGE
+		//maptype:            'watercolor'                   //OPTIONAL MAP STYLE
+		//css:                'path_to_css/timeline.css',     //OPTIONAL PATH TO CSS
+		//js:                 'path_to_js/timeline-min.js'    //OPTIONAL PATH TO JS
+	}
 }
