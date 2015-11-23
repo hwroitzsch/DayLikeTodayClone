@@ -13,8 +13,15 @@ def index():
 		'Christian Wille'
 	]
 	title = 'Hadoop!!!'
-	return(render_template('base.j2', title=title, authors=authors))
-
-@app.route('/date')
-def specific_date():
-	return render_template('content.j2')
+	days = [x+1 for x in range(31)]
+	months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+	languages = ['English', 'German']
+	
+	return render_template(
+		'content.j2', 
+		title=title, 
+		authors=authors, 
+		months=months, 
+		days=days,
+		languages=languages
+	)

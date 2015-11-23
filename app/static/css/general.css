@@ -2,3 +2,55 @@ h1 {
 	text-align: center;
 	margin-left: auto;
 }
+
+#attribution-area {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	justify-content: center;
+}
+
+#attribution-area > div {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
+.attribution-logo {
+	max-height: 10em;
+	max-width: 10em;
+}
+
+#chooser-area {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	justify-content: center;
+
+	border-top-color: #CCCCCC;
+	border-top-width: 1px;
+	border-bottom-color: #CCCCCC;
+	border-bottom-width: 1px;
+}
+
+#chooser-area > div {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
+
+.flex-area {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	justify-content: center;
+}
+
+.flex-area > div {
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+}
