@@ -9,6 +9,8 @@ $(document).ready(
 			const month = $('#month-chooser option:selected').text();
 			const language = $('#language-chooser option:selected').text();
 
+			insert_loader_animation();
+
 			get_json(month, day, language).done(
 				result => {
 					console.log(result);
@@ -30,7 +32,7 @@ $(document).ready(
 
 function get_json(month, day, language) {
 	const url = '/' + 'what_happened' + '/' + month + '/' + day + '/' + language;
-	
+
 	return $.ajax({
 		type: 'GET',
 		url: url,
@@ -56,4 +58,8 @@ function create_timeline_config() {
 		//css:                'path_to_css/timeline.css',     //OPTIONAL PATH TO CSS
 		//js:                 'path_to_js/timeline-min.js'    //OPTIONAL PATH TO JS
 	}
+}
+
+function insert_loader_animation() {
+	$('#timeline-embed').html('<div class="flex-area"><img src="static/img/pacman_loader.gif" alt="loading ..."></div>');
 }

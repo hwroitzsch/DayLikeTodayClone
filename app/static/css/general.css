@@ -58,3 +58,29 @@ h1 {
 .hidden-area {
 	display: none;
 }
+
+#timeline-embed {
+	min-height: 40vh;
+	width: 100%;
+}
+
+.tl-timenav {
+	/*height: 20% !important;
+	overflow: visible !important;*/
+}
+
+.tl-menubar {
+	/*height: 20% !important;
+	overflow: visible !important;*/
+}
+
+.tl-storyslider {
+	/*max-height: 80% !important;*/
+	min-height: 5em !important;
+	display: block;
+	/*overflow-y: hidden;*/
+}
+
+.tl-storyslider * .tl-slidenav-next {
+	/*overflow: visible;*/
+}
