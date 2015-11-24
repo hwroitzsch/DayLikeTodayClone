@@ -13,11 +13,15 @@ $(document).ready(
 
 			get_json(month, day, language).done(
 				result => {
-					console.log(result);
+					// console.log(result);
 					var timeline_config = create_timeline_config();
-					window.timeline = new TL.Timeline('timeline-embed', result);
-					console.log(window.timeline);
-					//window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
+					window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
+
+					$('.tl-slidenav-content-container').on('click', function(event) {
+						console.log('next or previous clicked, removing stupid styling ...');
+						remove_unnecessary_direct_styling();
+						return EVENT_NOT_HANDLED;
+					});
 				}
 			).fail(
 				result => {
@@ -62,4 +66,13 @@ function create_timeline_config() {
 
 function insert_loader_animation() {
 	$('#timeline-embed').html('<div class="flex-area"><img src="static/img/pacman_loader.gif" alt="loading ..."></div>');
+}
+
+function remove_unnecessary_direct_styling() {
+	$('iframe.tl-media-item').removeAttr('width');
+	$('iframe.tl-media-item').removeAttr('height');
+	$('iframe.tl-media-item').removeAttr('style');
+
+	//$('.tl-slide-content .tl-text-content').css('box-sizing', '');
+	//document.getElementById('mydiv').style.removeProperty('-moz-user-select')
 }

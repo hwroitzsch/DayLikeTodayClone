@@ -60,7 +60,7 @@ h1 {
 }
 
 #timeline-embed {
-	min-height: 40vh;
+	min-height: 50vh;
 	width: 100%;
 }
 
@@ -81,6 +81,18 @@ h1 {
 	/*overflow-y: hidden;*/
 }
 
+.tl-storyslider iframe.tl-media-item {
+	max-height: 100% !important;
+}
+
 .tl-storyslider * .tl-slidenav-next {
 	/*overflow: visible;*/
+}
+
+.tl-slide-content {
+	box-sizing: content-box;
+}
+
+.tl-slide-content * {
+	box-sizing: content-box;
 }

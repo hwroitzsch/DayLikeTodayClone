@@ -41,7 +41,7 @@ def what_happened(month, day, language):
 
 def get_data_from_hadoop(month, day, language):
 	print('getting data from Hadoop ...')
-	sleep(3)  # TODO: Remove this in production code!
+	sleep(1.5)  # TODO: Remove this in production code!
 
 	with open('app/timeline_json_example.json') as json_data_file:
 		print('returning result data')
