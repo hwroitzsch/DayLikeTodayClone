@@ -96,3 +96,7 @@ h1 {
 .tl-slide-content * {
 	box-sizing: content-box;
 }
+
+.tl-slide-content .tl-text-content p {
+	text-align: justify;
+}
