@@ -35,12 +35,14 @@ sparql.setQuery("""
 sparql.setReturnFormat(JSON)
 results = sparql.query().convert()
 
-for result in results["results"]["bindings"]:
-    print(
-        'NAME:', result['name']['value'], '\n',
-        'BIRTH:', result['birth']['value'], '\n',
-        'DEATH:', result['death']['value'], '\n',
-        'LINK:', result['person']['value'], '\n',
-        end='\n\n'
-    )
+print(results)
+
+#for result in results["results"]["bindings"]:
+#    print(
+#        'NAME:', result['name']['value'], '\n',
+#        'BIRTH:', result['birth']['value'], '\n',
+#        'DEATH:', result['death']['value'], '\n',
+#        'LINK:', result['person']['value'], '\n',
+#        end='\n\n'
+#    )
 

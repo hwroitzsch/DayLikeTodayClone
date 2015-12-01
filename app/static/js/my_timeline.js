@@ -1,6 +1,9 @@
 const EVENT_HANDLED = false;
 const EVENT_NOT_HANDLED = true;
 
+/**
+ * jQuery for adding event listeners to HTML elements
+ */
 $(document).ready(
 	() => {
 		$('#submit-form').submit(function() {
@@ -36,6 +39,9 @@ $(document).ready(
 	}
 );
 
+/**
+ * This function retrieves JSON data from the server. The returned JSON data should be in the timeline.js JSON data format.
+ */
 function get_json(month, day, language) {
 	const url = '/' + 'what_happened' + '/' + month + '/' + day + '/' + language;
 
@@ -47,6 +53,9 @@ function get_json(month, day, language) {
 	});
 }
 
+/**
+ * This function returns a configuration object for timeline.js.
+ */
 function create_timeline_config() {
 	return {
 		width:              '100%',
@@ -66,10 +75,16 @@ function create_timeline_config() {
 	}
 }
 
+/**
+ * This function inserts an animation to show that the AJAX request is being processed on the server side.
+ */
 function insert_loader_animation() {
 	$('#timeline-embed').html('<div class="flex-area"><img src="static/img/pacman_loader.gif" alt="loading ..."></div>');
 }
 
+/**
+ * This function removes unnecessary direct styling of HTML elements, which causes bad layout of some elements of the timeline.
+ */
 function remove_unnecessary_direct_styling() {
 	// tl-media-item tl-media-youtube tl-media-shadow
 

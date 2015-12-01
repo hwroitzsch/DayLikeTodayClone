@@ -1,7 +1,10 @@
+"""This file contains route definitions and handles requests for these routes."""
 import json
 from flask import render_template, request, jsonify
 from app import app
 from time import sleep
+
+__author__ = "Hans-Werner Roitzsch"
 
 DAYS = [x+1 for x in range(31)]
 MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -19,6 +22,8 @@ AUTHORS = [
 @app.route('/')
 @app.route('/index')
 def index():
+	"""This function handles requests for the landing page. It renders a Jinja2 template and returns the resulting HTML code."""
+	
 	return render_template(
 		'content.j2',
 		title=TITLE,
@@ -30,6 +35,8 @@ def index():
 
 @app.route('/what_happened/<month>/<day>/<language>', methods=["GET"])
 def what_happened(month, day, language):
+	"""This function handles GET requests for JSON data from DBPedia. The URL contains data, which will be used to query the server."""
+	
 	print('Received request!')
 	print('day:', month)
 	print('month:', day)
@@ -40,6 +47,8 @@ def what_happened(month, day, language):
 	return jsonify(result_data)
 
 def get_data_from_hadoop(month, day, language):
+	"""This function takes care of building a query from its parameters."""
+
 	print('getting data from Hadoop ...')
 	sleep(1.5)  # TODO: Remove this in production code!
 
