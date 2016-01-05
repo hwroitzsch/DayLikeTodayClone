@@ -4,6 +4,16 @@ from flask import render_template, request, jsonify
 from app import app
 from time import sleep
 
+from .src.HadoopResultParser import HadoopResultParser
+
+# import importlib.util
+# spec = importlib.util.spec_from_file_location(
+# 	'app.src.HadoopResultParser',
+# 	'/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/app/HadoodResultParser.py'
+# )
+# HadoodResultParser = importlib.util.module_from_spec(spec)
+# spec.loader.exec_module(HadoodResultParser)
+
 __author__ = "Hans-Werner Roitzsch"
 
 DAYS = [x+1 for x in range(31)]
@@ -23,7 +33,12 @@ AUTHORS = [
 @app.route('/index')
 def index():
 	"""This function handles requests for the landing page. It renders a Jinja2 template and returns the resulting HTML code."""
-	
+
+	hadoop_result_parser = HadoopResultParser()
+
+	with open('app/example_hadoop_result') as opened_file:
+		hadoop_result_parser.parse(opened_file)
+
 	return render_template(
 		'content.j2',
 		title=TITLE,
@@ -36,7 +51,7 @@ def index():
 @app.route('/what_happened/<month>/<day>/<language>', methods=["GET"])
 def what_happened(month, day, language):
 	"""This function handles GET requests for JSON data from DBPedia. The URL contains data, which will be used to query the server."""
-	
+
 	print('Received request!')
 	print('day:', month)
 	print('month:', day)
