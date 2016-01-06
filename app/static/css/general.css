@@ -100,3 +100,8 @@ h1 {
 .tl-slide-content .tl-text-content p {
 	text-align: justify;
 }
+
+.tl-media-image {
+	max-width: 200px !important;
+	max-height: 200px !important;
+}
