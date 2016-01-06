@@ -2,6 +2,7 @@ __author__ = 'Hans-Werner Roitzsch'
 
 
 import re
+from datetime import datetime
 
 
 class HadoopResultParser:
@@ -34,6 +35,7 @@ class HadoopResultParser:
 		]
 
 	def parse(self, result_data):
+		list_of_line_attributes = []
 		line_attributes = self.get_initial_line_attributes()  # at first we assume no attributes are present
 
 		for index,line in enumerate(result_data):
@@ -118,8 +120,6 @@ class HadoopResultParser:
 								line_attributes['image_url'] = value.strip('<>\n')
 								break
 
-			#<http://dbpedia.org/resource/Alan_Turing>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turing"@de	"Alan"@de	<http://dbpedia.org/resource/London>	"1954-06-07"^^<http://www.w3.org/2001/XMLSchema#date>	"britischer Logiker, Mathematiker und Kryptoanalytiker"@de	<http://commons.wikimedia.org/wiki/Special:FilePath/Alan_Turing_cropped.jpg>
-
 			print('====================\nATTRIBUTES OF LINE:')
 			print('url:', line_attributes['url'])
 			print('birth_date:', line_attributes['birth_date'])
@@ -136,7 +136,11 @@ class HadoopResultParser:
 			print('description:', line_attributes['description'])
 			print('image_url:', line_attributes['image_url'])
 
+			list_of_line_attributes.append(line_attributes)
+
 			line_attributes = self.get_initial_line_attributes()
+
+		return self.build_json(list_of_line_attributes)
 
 
 	def get_initial_line_attributes(self):
@@ -164,5 +168,117 @@ class HadoopResultParser:
 			'image_url': False
 		}
 
-	def determin_line_type(self, line):
-		pass
+	def build_json(self, list_of_line_attributes):
+		json_data = {}
+
+		# initialize with birth date, because death date will always increase this
+		latest_death_date = None
+		one_birth_date = False
+
+		for index, line_attributes in enumerate(list_of_line_attributes):
+			json_data['events'] = []
+			one_event = {}
+
+			# set latest death date initially
+			if latest_death_date is None and line_attributes['birth_date']:
+				latest_death_date = datetime(
+					int(line_attributes['birth_date_year']),
+					int(line_attributes['birth_date_month']),
+					int(line_attributes['birth_date_day'])
+				)
+
+			if not one_birth_date and line_attributes['birth_date']:
+				one_birth_date = datetime(
+					int(line_attributes['birth_date_year']),
+					int(line_attributes['birth_date_month']),
+					int(line_attributes['birth_date_day'])
+				)
+
+			if line_attributes['death_date']:
+				death_date = datetime(
+					int(line_attributes['death_date_year']),
+					int(line_attributes['death_date_month']),
+					int(line_attributes['death_date_day'])
+				)
+				if death_date > latest_death_date:
+					latest_death_date = death_date
+
+
+			one_event['media'] = {}
+
+			### URL ###
+			one_event['media']['url'] = str(line_attributes['image_url'])
+			one_event['media']['caption'] = str(line_attributes['first_name']) + ' ' + str(line_attributes['last_name'])
+			one_event['media']['credit'] = 'Wikipedia/<a href=\'' + str(line_attributes['image_url']) + '\'>image_' + str(index) + '</a>'
+
+			### START DATE ###
+			one_event['start_date'] = {}
+			if line_attributes['death_date']:
+				one_event['start_date']['year'] = line_attributes['death_date_year']
+				one_event['start_date']['month'] = line_attributes['death_date_month']
+				one_event['start_date']['day'] = line_attributes['death_date_year']
+			else:
+				one_event['start_date']['year'] = one_birth_date.year
+				one_event['start_date']['month'] = one_birth_date.month
+				one_event['start_date']['day'] = one_birth_date.day
+
+			### TEXT ###
+			one_event['text'] = {}
+
+			text_headline = ''
+			if line_attributes['first_name']: text_headline += line_attributes['first_name'] + ' '
+			if line_attributes['last_name']: text_headline += line_attributes['last_name'] + '<br>'
+			if line_attributes['birth_date_year']: text_headline += line_attributes['birth_date_year'] + ' - '
+			if line_attributes['death_date_year']: text_headline += line_attributes['death_date_year']
+			one_event['text']['headline'] = text_headline
+
+			one_event['text']['text'] = ''
+			if line_attributes['description']: one_event['text']['text'] = line_attributes['description']
+
+			json_data['events'].append(one_event)
+
+		# meta data block
+		json_data['title'] = {}
+		json_data['title']['media'] = {}
+		json_data['title']['media']['url'] = '//de.wikipedia.org/static/images/project-logos/dewiki.png'
+		json_data['title']['media']['caption'] = 'people born the same day'
+		json_data['title']['media']['credit'] = 'wikipedia/<a href=\'http://www.de.wikipedia.org\'>link_wiki</a>'
+		json_data['title']['text'] = {}
+
+		text_one_birth_date = str(one_birth_date.year) + '-' + str(one_birth_date.month) + '-' + str(one_birth_date.day)
+		text_latest_death_date = str(latest_death_date.year) + '-' + str(latest_death_date.month) + '-' + str(latest_death_date.day)
+		json_data['title']['text']['headline'] = 'People<br/>From-To: ' + text_one_birth_date + ' - ' + text_latest_death_date
+		json_data['title']['text']['text'] = '<p>These are people born the same day.</p>'
+
+		return json_data
+		# {
+		# 	"title": {
+		# 		"media": {
+		# 			"url": "//www.de.wikipedia.org",
+		# 			"caption": "People born the same day",
+		# 			"credit": "wikipedia/<a href='http://www.de.wikipedia.org'>link_wiki</a>"
+		# 		},
+		# 		"text": {
+		# 			"headline": "People<br/> EARLIES BIRTH DAY - LATEST DEATH DATE",
+		# 			"text": "<p>These are people born the same day.</p>"
+		# 		}
+		# 	},
+		# 	"events": [
+		# 		{
+		# 			"media": {
+		# 				"url": "URL ATTRIBUTE",
+		# 				"caption": "VOLLER NAME",
+		# 				"credit": "Wikipedia/<a href=''>image_INDEXOFLISTITEM</a>"
+		# 			},
+		# 			"start_date": {
+		# 				"month": "DEATH MONTH",
+		# 				"day": "DEATH DAY",
+		# 				"year": "DEATH YEAR"
+		# 			},
+		# 			"text": {
+		# 				"headline": "FIRST NAME LAST NAME<br> BIRTH YEAR - DEATH YEAR",
+		# 				"text": "DESCRIPTION"
+		# 			}
+		# 		}
+		# 	]
+		# }

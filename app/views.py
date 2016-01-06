@@ -34,11 +34,6 @@ AUTHORS = [
 def index():
 	"""This function handles requests for the landing page. It renders a Jinja2 template and returns the resulting HTML code."""
 
-	hadoop_result_parser = HadoopResultParser()
-
-	with open('app/example_hadoop_result') as opened_file:
-		hadoop_result_parser.parse(opened_file)
-
 	return render_template(
 		'content.j2',
 		title=TITLE,
@@ -67,6 +62,14 @@ def get_data_from_hadoop(month, day, language):
 	print('getting data from Hadoop ...')
 	sleep(1.5)  # TODO: Remove this in production code!
 
-	with open('app/timeline_json_example.json') as json_data_file:
-		print('returning result data')
-		return json.load(json_data_file)
+	# with open('app/timeline_json_example.json') as json_data_file:
+	# 	print('returning result data')
+	# 	return json.load(json_data_file)
+
+	hadoop_result_parser = HadoopResultParser()
+
+	json_result = None
+	with open('app/example_hadoop_result') as opened_file:
+		json_result = hadoop_result_parser.parse(opened_file)
+
+	return json_result
