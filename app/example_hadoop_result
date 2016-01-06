@@ -1,5 +1,7 @@
 ### alles vorhanden
 
+<http://dbpedia.org/resource/Alan_Turing#1>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turing"@de	"Alan"@de	<http://dbpedia.org/resource/London>	"1954-06-07"^^<http://www.w3.org/2001/XMLSchema#date>	"britischer Logiker, Mathematiker und Kryptoanalytiker"@de	<http://commons.wikimedia.org/wiki/Special:FilePath/Alan_Turing_cropped.jpg>
+
 <http://dbpedia.org/resource/Alan_Turing>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turing"@de	"Alan"@de	<http://dbpedia.org/resource/London>	"1954-06-07"^^<http://www.w3.org/2001/XMLSchema#date>	"britischer Logiker, Mathematiker und Kryptoanalytiker"@de	<http://commons.wikimedia.org/wiki/Special:FilePath/Alan_Turing_cropped.jpg>
 
 ### kein image
@@ -11,6 +13,13 @@
 <http://dbpedia.org/resource/Gerry_Chiniquy>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Chiniquy"@en	"Gerry"@en	<http://dbpedia.org/resource/United_States>	"1989-11-22"^^<http://www.w3.org/2001/XMLSchema#date>	"American animator"@en
 <http://dbpedia.org/resource/Gerry_Chiniquy>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Chiniquy"@en	"Gerry"@en	<http://dbpedia.org/resource/Illinois>	"1989-11-22"^^<http://www.w3.org/2001/XMLSchema#date>	"American animator"@en
 
+<http://dbpedia.org/resource/Henri_Akoka>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Akoka"@en	"Henri"@en	<http://dbpedia.org/resource/Tighenif>	"1975-11-22"^^<http://www.w3.org/2001/XMLSchema#date>	"clarinetist"@en
+<http://dbpedia.org/resource/Maurice_Dallimore>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Dallimore"@en	"Maurice"@en	<http://dbpedia.org/resource/England>	"1973-02-20"^^<http://www.w3.org/2001/XMLSchema#date>	"British actor"@en
+<http://dbpedia.org/resource/Maurice_Dallimore>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Dallimore"@en	"Maurice"@en	<http://dbpedia.org/resource/Essex>	"1973-02-20"^^<http://www.w3.org/2001/XMLSchema#date>	"British actor"@en
+
+<http://dbpedia.org/resource/Imre_D%C3%B6gei>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Dogei"@en	"Imre"@en	<http://dbpedia.org/resource/Austria-Hungary>	"1964-01-16"^^<http://www.w3.org/2001/XMLSchema#date>	"Hungarian politician"@en
+<http://dbpedia.org/resource/Imre_D%C3%B6gei>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Dogei"@en	"Imre"@en	<http://dbpedia.org/resource/T%C3%B6r%C3%B6kszentmikl%C3%B3s>	"1964-01-16"^^<http://www.w3.org/2001/XMLSchema#date>	"Hungarian politician"@en
+
 ### kein image, kein geb.ort,
 
 <http://dbpedia.org/resource/Samson_Kisekka>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Kisekka"@de	"Samson"@de		"1999-10-25"^^<http://www.w3.org/2001/XMLSchema#date>	"ugandischer Politiker"@de
@@ -19,15 +28,11 @@
 
 <http://dbpedia.org/resource/Sir_Peter_Roberts,_3rd_Baronet>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Roberts"@en	"Peter Geoffrey"@en	"1985-07-22"^^<http://www.w3.org/2001/XMLSchema#date>	"British politician"@en
 
+
+
+
+
 ### UNSORTED
-
-
-<http://dbpedia.org/resource/Henri_Akoka>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Akoka"@en	"Henri"@en	<http://dbpedia.org/resource/Tighenif>	"1975-11-22"^^<http://www.w3.org/2001/XMLSchema#date>	"clarinetist"@en
-<http://dbpedia.org/resource/Maurice_Dallimore>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Dallimore"@en	"Maurice"@en	<http://dbpedia.org/resource/England>	"1973-02-20"^^<http://www.w3.org/2001/XMLSchema#date>	"British actor"@en
-<http://dbpedia.org/resource/Maurice_Dallimore>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Dallimore"@en	"Maurice"@en	<http://dbpedia.org/resource/Essex>	"1973-02-20"^^<http://www.w3.org/2001/XMLSchema#date>	"British actor"@en
-
-<http://dbpedia.org/resource/Imre_D%C3%B6gei>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Dogei"@en	"Imre"@en	<http://dbpedia.org/resource/Austria-Hungary>	"1964-01-16"^^<http://www.w3.org/2001/XMLSchema#date>	"Hungarian politician"@en
-<http://dbpedia.org/resource/Imre_D%C3%B6gei>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Dogei"@en	"Imre"@en	<http://dbpedia.org/resource/T%C3%B6r%C3%B6kszentmikl%C3%B3s>	"1964-01-16"^^<http://www.w3.org/2001/XMLSchema#date>	"Hungarian politician"@en
 
 <http://dbpedia.org/resource/Arthur_Francis_Turner>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turner"@en	"Arthur"@en		"1991-10-26"^^<http://www.w3.org/2001/XMLSchema#date>	"Royal Navy admiral"@en
 
@@ -51,5 +56,6 @@
 
 <http://dbpedia.org/resource/Alan_Turing>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turing"@de	"Alan"@de	<http://dbpedia.org/resource/London>	"1954-06-07"^^<http://www.w3.org/2001/XMLSchema#date>	"britischer Logiker, Mathematiker und Kryptoanalytiker"@de	<http://commons.wikimedia.org/wiki/Special:FilePath/Alan_Turing_cropped.jpg>
 
+### EDITED
 
-r'<http://dbpedia.org/resource/\w>'
+<http://dbpedia.org/resource/Alan_Turing#1>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turing"@de	"Alan"@de	<http://dbpedia.org/resource/London>	"1954-06-07"^^<http://www.w3.org/2001/XMLSchema#date>	"britischer Logiker, Mathematiker und Kryptoanalytiker"@de	<https://de.wikipedia.org/wiki/Albert_Einstein#/media/File:Einstein_1921_portrait2.jpg>
