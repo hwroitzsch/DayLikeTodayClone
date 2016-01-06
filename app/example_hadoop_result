@@ -56,6 +56,4 @@
 
 <http://dbpedia.org/resource/Alan_Turing>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turing"@de	"Alan"@de	<http://dbpedia.org/resource/London>	"1954-06-07"^^<http://www.w3.org/2001/XMLSchema#date>	"britischer Logiker, Mathematiker und Kryptoanalytiker"@de	<http://commons.wikimedia.org/wiki/Special:FilePath/Alan_Turing_cropped.jpg>
 
-### EDITED
-
-<http://dbpedia.org/resource/Alan_Turing#1>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turing"@de	"Alan"@de	<http://dbpedia.org/resource/London>	"1954-06-07"^^<http://www.w3.org/2001/XMLSchema#date>	"britischer Logiker, Mathematiker und Kryptoanalytiker"@de	<https://de.wikipedia.org/wiki/Albert_Einstein#/media/File:Einstein_1921_portrait2.jpg>
+<http://dbpedia.org/resource/Alan_Turing#1>	"1912-06-23"^^<http://www.w3.org/2001/XMLSchema#date>	"Turing"@de	"Alan"@de	<http://dbpedia.org/resource/London>	"1954-06-07"^^<http://www.w3.org/2001/XMLSchema#date>	"britischer Logiker, Mathematiker und Kryptoanalytiker"@de	<http://commons.wikimedia.org/wiki/Special:FilePath/Alan_Turing_cropped.jpg>

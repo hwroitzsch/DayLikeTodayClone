@@ -14,7 +14,7 @@ class HadoopResultParser:
 		self.date_regex = re.compile(r'^"\d{4}-\d{2}-\d{2}"\^\^(<http://www\.w3\.org/2001/XMLSchema\#d.*)$')  # somehow > instead of .* at the end doesn't match
 
 		#"Alan"@de
-		self.name_regex = re.compile(r'^"([a-zA-Z]*)"@(de|en)$')
+		self.name_regex = re.compile(r'^"(([A-Z\\\\u0-9][a-z\\\\0-9]*)[- ]{0,1})+"@(de|en)$')
 
 		#<http://dbpedia.org/resource/London>
 		self.birth_place_regex = re.compile(r'^<((http|https|ftp)://)?(www\.)?.*\.([a-zA-Z]{2,3})(/|[\w#-])*>$')
@@ -175,8 +175,9 @@ class HadoopResultParser:
 		latest_death_date = None
 		one_birth_date = False
 
+		json_data['events'] = []
+
 		for index, line_attributes in enumerate(list_of_line_attributes):
-			json_data['events'] = []
 			one_event = {}
 
 			# set latest death date initially
@@ -236,6 +237,7 @@ class HadoopResultParser:
 			if line_attributes['description']: one_event['text']['text'] = line_attributes['description']
 
 			json_data['events'].append(one_event)
+			print('\njson_data[\'events\'] has now', len(json_data['events']), 'elements.\n')
 
 		# meta data block
 		json_data['title'] = {}
@@ -249,6 +251,9 @@ class HadoopResultParser:
 		text_latest_death_date = str(latest_death_date.year) + '-' + str(latest_death_date.month) + '-' + str(latest_death_date.day)
 		json_data['title']['text']['headline'] = 'People<br/>From-To: ' + text_one_birth_date + ' - ' + text_latest_death_date
 		json_data['title']['text']['text'] = '<p>These are people born the same day.</p>'
+
+		print('LENGTH OF JSON DATA:', len(json_data))
+		print('JSON DATA:', json_data)
 
 		return json_data
 		# {
