@@ -6,28 +6,40 @@ const EVENT_NOT_HANDLED = true;
  */
 $(document).ready(
 	() => {
-		$('#submit-form').submit(function() {
-			//const day = $('#day-chooser').val();
-			const day = $('#day-chooser option:selected').text();
-			const month = $('#month-chooser option:selected').text();
-			const language = $('#language-chooser option:selected').text();
+		$('.submit-form').submit(() => {
+
+			const category = $('.category-chooser option:selected').text().toLowerCase();
+			const language = $('.language-chooser option:selected').text().toLowerCase();
+			const day = $('.day-chooser option:selected').text();
+			const month = $('.month-chooser option:selected').text();
+			const year = $('.year-chooser option:selected').text();
 
 			insert_loader_animation();
 
-			get_json(month, day, language).done(
+			get_json(category, year, month, day, language).done(
 				result => {
-					// console.log(result);
-					var timeline_config = create_timeline_config();
-					window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
 
-					$('.tl-slidenav-content-container').on('click', function(event) {
-						console.log('next or previous clicked, removing stupid styling ...');
+					console.log('Received JSON result for ' + category + '.');
+					if (category === 'persons') {
+						var timeline_config = create_timeline_config();
+						window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
+
+						$('.tl-slidenav-content-container').on('click', function(event) {
+							console.log('next or previous clicked, removing stupid styling ...');
+							remove_unnecessary_direct_styling();
+							add_necessary_styling();
+						});
+
 						remove_unnecessary_direct_styling();
-						return EVENT_NOT_HANDLED;
-					});
+						add_necessary_styling();
 
-					remove_unnecessary_direct_styling();
-					add_necessary_styling();
+					} else if (category === 'companies') {
+						console.log('now using companies result');
+
+					} else if (category === 'series') {
+						console.log('now using series result');
+					}
+
 				}
 			).fail(
 				result => {
@@ -44,16 +56,27 @@ $(document).ready(
 				add_necessary_styling();
 				alert('ALERT');
 			}, 1);
-			return EVENT_NOT_HANDLED;
-		})
+		});
 	}
 );
 
 /**
  * This function retrieves JSON data from the server. The returned JSON data should be in the timeline.js JSON data format.
  */
-function get_json(month, day, language) {
-	const url = '/' + 'what_happened' + '/' + month + '/' + day + '/' + language;
+function get_json(category, year, month, day, language) {
+	var url = '';
+
+	if (category === 'persons') {
+		url += '/' + category + '/' + year + '/' + month + '/' + day + '/' + language;
+	} else if (category === 'companies') {
+		url += '/' + category + '/' + year + '/' + language;
+	} else if (category === 'series') {
+		url += '/' + category + '/' + year + '/' + language;
+	} else {
+		console.log('unknown category chosen');
+	}
+
+	console.log('Getting JSON from REST URL: ' + url);
 
 	return $.ajax({
 		type: 'GET',

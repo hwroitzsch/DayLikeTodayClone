@@ -25,8 +25,17 @@
 
 
 
-	<div id="chooser-area">
+	<div class="chooser-area">
 		<div>
+			<label>Category</label>
+			<select class="category-chooser" class="mini-input">
+				{% for category in categories %}
+				<option value="{{category}}">{{category}}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div></div>
+		<!-- <div>
 			<label>Month</label>
 			<select id="month-chooser" class="mini-input">
 				{% for month in months %}
@@ -41,17 +50,17 @@
 				<option value="{{loop.index}}">{{day}}</option>
 				{% endfor %}
 			</select>
-		</div>
-		<div>
+		</div>-->
+		<!-- <div>
 			<label>Language</label>
 			<select id="language-chooser" class="mini-input">
 				{% for language in languages %}
 				<option value="{{loop.index}}">{{language}}</option>
 				{% endfor %}
 			</select>
-		</div>
+		</div> -->
 		<div>
-			<form id="submit-form">
+			<form class="submit-form">
 				<button class="btn btn-primary" type="submit">What happened?!</button>
 			</form>
 		</div>

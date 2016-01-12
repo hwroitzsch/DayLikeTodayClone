@@ -28,6 +28,11 @@ AUTHORS = [
 	'Johannes Reger',
 	'Christian Wille'
 ]
+CATEGORIES = [
+	'Persons',
+	'Companies',
+	'Series'
+]
 
 @app.route('/')
 @app.route('/index')
@@ -38,25 +43,39 @@ def index():
 		'content.j2',
 		title=TITLE,
 		authors=AUTHORS,
-		months=MONTHS,
-		days=DAYS,
-		languages=LANGUAGES
+		categories=CATEGORIES
 	)
 
-@app.route('/what_happened/<month>/<day>/<language>', methods=["GET"])
-def what_happened(month, day, language):
+
+
+@app.route('/persons/<year>/<month>/<day>/<language>', methods=["GET"])
+def what_happened_persons(year, month, day, language):
 	"""This function handles GET requests for JSON data from DBPedia. The URL contains data, which will be used to query the server."""
 
 	print('Received request!')
-	print('day:', month)
-	print('month:', day)
+	print('year:', year)
+	print('month:', month)
+	print('day:', day)
 	print('language:', language)
 
-	result_data = get_data_from_hadoop(month, day, language)
+	result_data = get_data_from_hadoop('persons', year, month, day, language)
 	print('got result data')
+
 	return jsonify(result_data)
 
-def get_data_from_hadoop(month, day, language):
+@app.route('/companies/<year>/<language>', methods=["GET"])
+def what_happened_companies(year, language):
+	print('Companies called.')
+	return 'not yet implemented'
+
+@app.route('/series/<year>/<language>', methods=["GET"])
+def what_happened_series(year, language):
+	print('Series called.')
+	return 'not yet implemented'
+
+
+
+def get_data_from_hadoop(category, year, month, day, language):
 	"""This function takes care of building a query from its parameters."""
 
 	print('getting data from Hadoop ...')
@@ -66,10 +85,17 @@ def get_data_from_hadoop(month, day, language):
 	# 	print('returning result data')
 	# 	return json.load(json_data_file)
 
-	hadoop_result_parser = HadoopResultParser()
+	if category == 'persons':
+		hadoop_result_parser = HadoopResultParser()
 
-	json_result = None
-	with open('app/example_hadoop_result') as opened_file:
-		json_result = hadoop_result_parser.parse(opened_file)
+		json_result = None
+		with open('app/example_hadoop_result') as opened_file:
+			json_result = hadoop_result_parser.parse(opened_file)
+
+	elif category == 'companies':
+		print('Getting Companies')
+
+	elif category == 'series':
+		print('Getting Series')
 
 	return json_result

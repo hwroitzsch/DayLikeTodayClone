@@ -22,7 +22,7 @@ h1 {
 	max-width: 10em;
 }
 
-#chooser-area {
+.chooser-area {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -36,7 +36,7 @@ h1 {
 	border-bottom-width: 1px;
 }
 
-#chooser-area > div {
+.chooser-area > div {
 	margin-left: 0.5em;
 	margin-right: 0.5em;
 }
