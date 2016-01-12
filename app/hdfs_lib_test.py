@@ -2,21 +2,21 @@ from hdfs import Config
 from hdfs import InsecureClient
 
 # http://blog.cloudera.com/blog/2009/08/hadoop-default-ports-quick-reference/
-PORT_LIST = [50070, 50075, 50090, 50105, 50030, 50060]
-
-PORT = 9000
-USER = ''
-IP_ADDRESS = '192.168.0.100'
-PROTOCOL = 'hdfs'
-
-# while PORT < 100000:
-try:
-	client = InsecureClient(PROTOCOL + '://' + IP_ADDRESS + ':' + PORT)
-	# client = InsecureClient('http://'+IP_ADDRESS+':'+PORT, user=USER)
-	# break
-except Exception as ex:
-	print('\nCould not create client with the following connection information:\n ' + PROTOCOL + '://' + IP_ADDRESS + ':' + str(PORT) + '\n')
-	# PORT += 1
+# PORT_LIST = [50070, 50075, 50090, 50105, 50030, 50060]
+#
+# PORT = 9000
+# USER = ''
+# IP_ADDRESS = '192.168.0.100'
+# PROTOCOL = 'hdfs'
+#
+# # while PORT < 100000:
+# try:
+# 	client = InsecureClient(PROTOCOL + '://' + IP_ADDRESS + ':' + PORT)
+# 	# client = InsecureClient('http://'+IP_ADDRESS+':'+PORT, user=USER)
+# 	# break
+# except Exception as ex:
+# 	print('\nCould not create client with the following connection information:\n ' + PROTOCOL + '://' + IP_ADDRESS + ':' + str(PORT) + '\n')
+# 	# PORT += 1
 
 # #client = Config().get_client('dev')
 #
@@ -40,3 +40,5 @@ except Exception as ex:
 # 		pass
 
 # pig -param input=<input file> -param output=<output file> -param reducer-num=1 -param date=1980-12-24
+
+client = Config().get_client('dev')
