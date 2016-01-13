@@ -79,7 +79,8 @@ $(document).ready(
 						add_necessary_styling();
 
 					} else if (category === 'foundations') {
-						console.log('now using foundations result');
+						console.log(result);
+						$('#timeline-embed').add('<p>ADDED</p>')
 
 					} else if (category === 'series') {
 						console.log('now using series result');

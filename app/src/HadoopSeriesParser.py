@@ -15,8 +15,8 @@ class HadoopSeriesParser:
 		# "Axel!"@de
 		# "35"^^<http://www.w3.org/2001/XMLSchema#nonNegativeInteger>
 		# (Produzent) BSP: <http://dbpedia.org/resource/Tina_Fey>
-		# (Bild) BSP: <http://commons.wikimedia.org/wiki/Special:FilePath/Ty_Pennington.jpg>
 		# (???)
+		# (Bild) BSP: <http://commons.wikimedia.org/wiki/Special:FilePath/Ty_Pennington.jpg>
 		# "Axel! ist eine deutsche Comedy-Serie mit Axel Stein in der Titelrolle, in der witzige Episoden aus dem Leben der Figur Axel und seiner Freunde gezeigt werden. Die Serie wurde auf Sat.1 ausgestrahlt. Als Fortsetzung entstand eine weitere Serie mit dem Namen Axel! will\u2019s wissen."@de
 
 
@@ -48,7 +48,7 @@ class HadoopSeriesParser:
 					if line_parts[5]:
 						line_attributes['image_url'] = line_parts[5].split('<>', -1)[1]
 
-					if line_parts[6]:
+					if line_parts[7]:
 						line_attributes['summary'] = line_parts[7].split('"', -1)[1]
 
 					lines_attributes.append(line_attributes)

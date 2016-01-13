@@ -88,7 +88,7 @@ def get_data_from_hadoop(category, year, month, day, language):
 			print('Language unknown.')
 
 		parser = HadoopPersonsParser()
-		return parser.parse(lines)
+		return jsonify(parser.parse(lines))
 
 
 	elif category == 'foundations':
