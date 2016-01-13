@@ -84,6 +84,8 @@ def get_data_from_hadoop(category, year, month, day, language):
 			print('Language unknown.')
 
 		parser = HadoopPersonsParser()
+		return parser.parse(lines)
+
 
 	elif category == 'companies':
 		print('Getting Companies')
@@ -95,6 +97,9 @@ def get_data_from_hadoop(category, year, month, day, language):
 			print('Language unknown.')
 
 		parser = HadoopCompaniesParser()
+		json_result = parser.parse(lines)
+
+		return jsonify(json_result)
 
 	elif category == 'series':
 		print('Getting Series')
@@ -106,9 +111,6 @@ def get_data_from_hadoop(category, year, month, day, language):
 			print('Language unknown.')
 
 		parser = HadoopSeriesParser()
+		json_result = parser.parse(lines)
 
-		for line in json_result: print(line)
-
-	json_result = parser.parse(lines)
-
-	return json_result
+		return jsonify(json_result)
