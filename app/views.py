@@ -114,5 +114,6 @@ def get_data_from_hadoop(category, year, month, day, language):
 
 		parser = HadoopSeriesParser()
 		json_result = parser.parse(lines)
+		json_result = [elem for elem in json_result if elem['foundation_date_year'] == year]  # only return the ones of the year specified by the user
 
 		return jsonify(json_result)
