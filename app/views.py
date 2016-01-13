@@ -8,6 +8,8 @@ from .src.HadoopPersonsParser import HadoopPersonsParser
 from .src.HadoopFoundationsParser import HadoopFoundationsParser
 from .src.HadoopSeriesParser import HadoopSeriesParser
 from .src.HDFSFileReader import HDFSFileReader
+from .src.SeriesFileReader import SeriesFileReader
+from .src.FoundationsFileReader import FoundationsFileReader
 
 __author__ = "Hans-Werner Roitzsch"
 
@@ -44,7 +46,7 @@ def index():
 
 @app.route('/persons/<year>/<month>/<day>/<language>', methods=["GET"])
 def what_happened_persons(year, month, day, language):
-	"""This function handles GET requests for JSON data from DBPedia. The URL contains data, which will be used to query the server."""
+	"""this function handles GET requests for JSON data from DBPedia. The URL contains data, which will be used to query the server."""
 
 	print('Received request!')
 	print('year:', year)
@@ -92,30 +94,46 @@ def get_data_from_hadoop(category, year, month, day, language):
 
 
 	elif category == 'foundations':
+		file_reader = FoundationsFileReader()
 		print('Getting Foundations')
 		if language == 'english':
-			lines = HDFSFileReader.read('Foundations_en')
+			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_en')
 		elif language == 'german':
-			lines = HDFSFileReader.read('Foundations_de')
+			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_de')
 		else:
 			print('Language unknown.')
 
-		parser = HadoopFoundationsParser()
-		result = parser.parse(lines)  # returns a dictionary
+		#parser = HadoopFoundationsParser()
+		#result = parser.parse(lines)  # returns a dictionary
 
-		return jsonify(result)
+		#return jsonify(result)
+		lines_attributes = [attr for attr in lines_attributes if attr['start_date_year'] == year]
+		result = jsonify(result=lines_attributes)
+		#print(lines_attributes)
+		#print(result)
+		return jsonify(result=lines_attributes)
+
 
 	elif category == 'series':
+		file_reader = SeriesFileReader()
 		print('Getting Series')
 		if language == 'english':
-			lines = HDFSFileReader.read('Series_en')
-		elif language == 'german':
-			lines = HDFSFileReader.read('Series_de')
+			lines_attributes = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Serien_en')
+			#lines = HDFSFileReader.read('Series_en')
+		elif language == 'german': # TODO
+			lines_attributes = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Serien_de')
+			#lines = HDFSFileReader.read('Series_de')
 		else:
 			print('Language unknown.')
 
-		parser = HadoopSeriesParser()
-		json_result = parser.parse(lines)
-		json_result = [elem for elem in json_result if elem['foundation_date_year'] == year]  # only return the ones of the year specified by the user
+		#parser = HadoopSeriesParser()
+		#json_result = parser.parse(lines)
+		#json_result = [elem for elem in json_result if elem['foundation_date_year'] == year]  # only return the ones of the year specified by the user
 
-		return jsonify(json_result)
+		#return jsonify(json_result)
+		lines_attributes = [attr for attr in lines_attributes if attr['start_date_year'] == year]
+		result = jsonify(result=lines_attributes)
+		#print(lines_attributes)
+		#print(result)
+		return jsonify(result=lines_attributes)
+
