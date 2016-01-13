@@ -1,7 +1,9 @@
 const EVENT_HANDLED = false;
 const EVENT_NOT_HANDLED = true;
 
-DAYS_OF_MONTHS = []
+DAYS_OF_MONTHS = [1,2,3,4,5,6,7,8,9,10,
+                  11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,
+                  26,26,27,28,29,30,31  ]
 MONTH = [
 	'January',
 	'February',
@@ -29,9 +31,7 @@ for (var year = 1900; year <= current_year; year++) {
 	YEARS.push(year);
 }
 
-_.each(MONTH, (element, index, list) => {
-	DAYS_OF_MONTHS[index] = 31;
-});
+
 
 // BUILD THE  SELECT BOXES, TO ADD AND REMOVE THEM DYNAMICALLY
 years_select = build_years_select();
