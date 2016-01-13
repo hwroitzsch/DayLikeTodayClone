@@ -15,7 +15,7 @@ class HDFSFileReader:
 		try:
 			client = Config().get_client('dev')
 
-			with client.read('Serien_de', encoding='utf-8', delimiter='\n') as reader:
+			with client.read(file_path, encoding='utf-8', delimiter='\n') as reader:
 				for line in reader:
 					lines.append(line)  # eventuell unnoetig, kann man auch reader zurueckgeben?
 		except:
