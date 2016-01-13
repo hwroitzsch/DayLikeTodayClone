@@ -3,7 +3,7 @@ const EVENT_NOT_HANDLED = true;
 
 DAYS_OF_MONTHS = [1,2,3,4,5,6,7,8,9,10,
                   11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,
-                  26,26,27,28,29,30,31  ]
+                  26,26,27,28,29,30,31];
 MONTH = [
 	'January',
 	'February',
@@ -17,12 +17,13 @@ MONTH = [
 	'October',
 	'November',
 	'December'
-]
-YEARS = []
+];
+
+YEARS = [];
 LANGUAGES = [
 	'English',
 	'German'
-]
+];
 
 current_date = new Date();
 current_year = current_date.getFullYear();
@@ -63,7 +64,6 @@ $(document).ready(
 
 			get_json(category, year, month, day, language).done(
 				result => {
-
 					console.log('Received JSON result for ' + category + '.');
 					if (category === 'persons') {
 						var timeline_config = create_timeline_config();
@@ -82,9 +82,12 @@ $(document).ready(
 						console.log('now using foundations result');
 
 					} else if (category === 'series') {
-						console.log('now using series result');
+						_.each(result.result, (one_series, index, list) => {
+							series_html = build_series_item_html(one_series);
+							$(series_html).insertAfter('#timeline-embed > .flex-area');
+						});
 					}
-
+				$('.ajax_loader_animation').remove();
 				}
 			).fail(
 				result => {
@@ -104,6 +107,18 @@ $(document).ready(
 		});
 	}
 );
+
+function build_series_item_html(one_series) {
+	return '<div class="series-item">'+
+			'<p><a href="' + one_series.url + '">Link</a></p>' +
+			'<p>Start Date:' + one_series.start_date + '</p>' + 
+			'<p>Name:' + one_series.name + '</p>' +
+			'<p>Episode Count:' + one_series.episode_count + '</p>' +
+			'<p>Producer:<a href="' + one_series.producer_url + '">Producer</a></p>' +
+			'<p><img class="series-item-image" src="' + one_series.image_url + '" alt="IMAGE"></img></p>' +
+			'<p>Summary: ' + one_series.summary + '</p>' +
+		'</div>';
+}
 
 function show_selects_for_category(category) {
 	children = $(".chooser-area > div")
@@ -245,7 +260,7 @@ function create_timeline_config() {
  * This function inserts an animation to show that the AJAX request is being processed on the server side.
  */
 function insert_loader_animation() {
-	$('#timeline-embed').html('<div class="flex-area"><img src="static/img/pacman_loader.gif" alt="loading ..."></div>');
+	$('#timeline-embed').html('<div class="flex-area ajax_loader_animation"><img src="static/img/pacman_loader.gif" alt="loading ..."></div>');
 }
 
 /**

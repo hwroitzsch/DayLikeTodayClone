@@ -105,3 +105,11 @@ h1 {
 	max-width: 200px !important;
 	max-height: 200px !important;
 }
+
+/* ======================== SERIES ========================= */
+.series-item-image {
+	max-width: 300px;
+	max-height: 200px;
+}
+
+
