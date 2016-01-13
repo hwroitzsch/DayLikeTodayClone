@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-class HadoopCompaniesParser:
+class HadoopFoundationsParser:
 	def __init__(self):
 		self.attribute_count = 5
 
