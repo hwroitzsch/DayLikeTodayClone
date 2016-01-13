@@ -10,6 +10,7 @@ from .src.HadoopSeriesParser import HadoopSeriesParser
 from .src.HDFSFileReader import HDFSFileReader
 from .src.SeriesFileReader import SeriesFileReader
 from .src.FoundationsFileReader import FoundationsFileReader
+from .src.PersonsFileReader import PersonsFileReader
 
 __author__ = "Hans-Werner Roitzsch"
 
@@ -82,16 +83,20 @@ def get_data_from_hadoop(category, year, month, day, language):
 
 	if category == 'persons':
 		print('Getting persons.')
+		file_reader = PersonsFileReader()
+		
 		if language == 'english':
-			lines = HDFSFileReader.read('Persons_en')
+			#lines = HDFSFileReader.read('Persons_en')
+			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_en')
+			
 		elif language == 'german':
-			lines = HDFSFileReader.read('Persons_de')
+			#lines = HDFSFileReader.read('Persons_de')
+			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_de')
 		else:
 			print('Language unknown.')
 
 		parser = HadoopPersonsParser()
 		return jsonify(parser.parse(lines))
-
 
 	elif category == 'foundations':
 		file_reader = FoundationsFileReader()
