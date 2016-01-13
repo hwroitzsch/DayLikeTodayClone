@@ -78,8 +78,8 @@ $(document).ready(
 						remove_unnecessary_direct_styling();
 						add_necessary_styling();
 
-					} else if (category === 'companies') {
-						console.log('now using companies result');
+					} else if (category === 'foundations') {
+						console.log('now using foundations result');
 
 					} else if (category === 'series') {
 						console.log('now using series result');
@@ -119,7 +119,7 @@ function show_selects_for_category(category) {
 		children.eq(0).after(months_select);
 		children.eq(0).after(years_select);
 
-	} else if (category === 'companies' || category === 'series') {
+	} else if (category === 'foundations' || category === 'series') {
 		children.eq(0).after(languages_select);
 		children.eq(0).after(years_select);
 	}
@@ -201,7 +201,7 @@ function get_json(category, year, month, day, language) {
 
 	if (category === 'persons') {
 		url += '/' + category + '/' + year + '/' + month + '/' + day + '/' + language;
-	} else if (category === 'companies') {
+	} else if (category === 'foundations') {
 		url += '/' + category + '/' + year + '/' + language;
 	} else if (category === 'series') {
 		url += '/' + category + '/' + year + '/' + language;

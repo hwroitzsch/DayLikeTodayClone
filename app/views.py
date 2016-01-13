@@ -5,7 +5,7 @@ from . import app
 from time import sleep
 
 from .src.HadoopPersonsParser import HadoopPersonsParser
-from .src.HadoopCompaniesParser import HadoopCompaniesParser
+from .src.HadoopFoundationsParser import HadoopFoundationsParser
 from .src.HadoopSeriesParser import HadoopSeriesParser
 from .src.HDFSFileReader import HDFSFileReader
 
@@ -24,7 +24,7 @@ AUTHORS = [
 ]
 CATEGORIES = [
 	'Persons',
-	'Companies',
+	'Foundations',
 	'Series'
 ]
 
@@ -57,10 +57,12 @@ def what_happened_persons(year, month, day, language):
 
 	return jsonify(result_data)
 
-@app.route('/companies/<year>/<language>', methods=["GET"])
-def what_happened_companies(year, language):
-	print('Companies called.')
-	return 'not yet implemented'
+@app.route('/foundations/<year>/<language>', methods=["GET"])
+def what_happened_foundations(year, language):
+	print('Foundations called.')
+
+	result_data = get_data_from_hadoop('foundations', year, None, None, language)
+	return result_data
 
 @app.route('/series/<year>/<language>', methods=["GET"])
 def what_happened_series(year, language):
@@ -87,26 +89,26 @@ def get_data_from_hadoop(category, year, month, day, language):
 		return parser.parse(lines)
 
 
-	elif category == 'companies':
-		print('Getting Companies')
+	elif category == 'foundations':
+		print('Getting Foundations')
 		if language == 'english':
-			lines = HDFSFileReader.read('Company_en')
+			lines = HDFSFileReader.read('Foundations_en')
 		elif language == 'german':
-			lines = HDFSFileReader.read('Company_de')
+			lines = HDFSFileReader.read('Foundations_de')
 		else:
 			print('Language unknown.')
 
-		parser = HadoopCompaniesParser()
-		json_result = parser.parse(lines)
+		parser = HadoopFoundationsParser()
+		result = parser.parse(lines)  # returns a dictionary
 
-		return jsonify(json_result)
+		return jsonify(result)
 
 	elif category == 'series':
 		print('Getting Series')
 		if language == 'english':
-			lines = HDFSFileReader.read('Serien_en')
+			lines = HDFSFileReader.read('Series_en')
 		elif language == 'german':
-			lines = HDFSFileReader.read('Serien_de')
+			lines = HDFSFileReader.read('Series_de')
 		else:
 			print('Language unknown.')
 
