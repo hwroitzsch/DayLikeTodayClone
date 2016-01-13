@@ -67,6 +67,8 @@ def what_happened_foundations(year, language):
 @app.route('/series/<year>/<language>', methods=["GET"])
 def what_happened_series(year, language):
 	print('Series called.')
+	result_data = get_data_from_hadoop('series', year, None, None, language)
+	return result_data
 	return 'not yet implemented'
 
 
