@@ -1,18 +1,13 @@
 """This file contains route definitions and handles requests for these routes."""
 import json
 from flask import render_template, request, jsonify
-from app import app
+from . import app
 from time import sleep
 
-from .src.HadoopResultParser import HadoopResultParser
-
-# import importlib.util
-# spec = importlib.util.spec_from_file_location(
-# 	'app.src.HadoopResultParser',
-# 	'/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/app/HadoodResultParser.py'
-# )
-# HadoodResultParser = importlib.util.module_from_spec(spec)
-# spec.loader.exec_module(HadoodResultParser)
+from .src.HadoopPersonsParser import HadoopPersonsParser
+from .src.HadoopCompaniesParser import HadoopCompaniesParser
+from .src.HadoopSeriesParser import HadoopSeriesParser
+from .src.HDFSFileReader import HDFSFileReader
 
 __author__ = "Hans-Werner Roitzsch"
 
@@ -25,8 +20,7 @@ AUTHORS = [
 	'Christian Günther',
 	'Christopher Rohrlack',
 	'Jonny Leuschner',
-	'Johannes Reger',
-	'Christian Wille'
+	'Johannes Reger'
 ]
 CATEGORIES = [
 	'Persons',
@@ -74,28 +68,47 @@ def what_happened_series(year, language):
 	return 'not yet implemented'
 
 
-
 def get_data_from_hadoop(category, year, month, day, language):
 	"""This function takes care of building a query from its parameters."""
 
 	print('getting data from Hadoop ...')
 	sleep(1.5)  # TODO: Remove this in production code!
 
-	# with open('app/timeline_json_example.json') as json_data_file:
-	# 	print('returning result data')
-	# 	return json.load(json_data_file)
-
 	if category == 'persons':
-		hadoop_result_parser = HadoopResultParser()
+		print('Getting persons.')
+		if language == 'english':
+			lines = HDFSFileReader.read('Persons_en')
+		elif language == 'german':
+			lines = HDFSFileReader.read('Persons_de')
+		else:
+			print('Language unknown.')
 
-		json_result = None
-		with open('app/example_hadoop_result') as opened_file:
-			json_result = hadoop_result_parser.parse(opened_file)
+		parser = HadoopPersonsParser()
 
 	elif category == 'companies':
 		print('Getting Companies')
+		if language == 'english':
+			lines = HDFSFileReader.read('Company_en')
+		elif language == 'german':
+			lines = HDFSFileReader.read('Company_de')
+		else:
+			print('Language unknown.')
+
+		parser = HadoopCompaniesParser()
 
 	elif category == 'series':
 		print('Getting Series')
+		if language == 'english':
+			lines = HDFSFileReader.read('Serien_en')
+		elif language == 'german':
+			lines = HDFSFileReader.read('Serien_de')
+		else:
+			print('Language unknown.')
+
+		parser = HadoopSeriesParser()
+
+		for line in json_result: print(line)
+
+	json_result = parser.parse(lines)
 
 	return json_result
