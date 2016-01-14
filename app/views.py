@@ -45,6 +45,7 @@ PATH_SERIES_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clon
 PATH_SERIES_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_de'
 PATH_PERSONS_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_en'
 PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_reduced_de'
+PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_de'
 
 @app.route('/')
 @app.route('/index')
