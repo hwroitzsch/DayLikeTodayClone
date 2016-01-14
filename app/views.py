@@ -102,9 +102,9 @@ def get_data_from_hadoop(category, year, month, day, language):
 		file_reader = FoundationsFileReader()
 		print('Getting Foundations')
 		if language == 'english':
-			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_en')
+			lines_attributes = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_en')
 		elif language == 'german':
-			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_de')
+			lines_attributes = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_de')
 		else:
 			print('Language unknown.')
 
@@ -113,7 +113,7 @@ def get_data_from_hadoop(category, year, month, day, language):
 
 		#return jsonify(result)
 		lines_attributes = [attr for attr in lines_attributes if attr['start_date_year'] == year]
-		result = jsonify(result=lines_attributes)
+		#result = jsonify(result=lines_attributes)
 		#print(lines_attributes)
 		#print(result)
 		return jsonify(result=lines_attributes)
@@ -137,7 +137,7 @@ def get_data_from_hadoop(category, year, month, day, language):
 
 		#return jsonify(json_result)
 		lines_attributes = [attr for attr in lines_attributes if attr['start_date_year'] == year]
-		result = jsonify(result=lines_attributes)
+		#result = jsonify(result=lines_attributes)
 		#print(lines_attributes)
 		#print(result)
 		return jsonify(result=lines_attributes)
