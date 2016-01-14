@@ -48,6 +48,7 @@ h1 {
 	margin-top: 2em;
 	margin-bottom: 2em;
 	justify-content: center;
+	flex-direction: row;
 }
 
 .flex-area > div {
@@ -107,14 +108,28 @@ h1 {
 }
 
 /* ======================== SERIES ========================= */
+.result-container {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	justify-content: center;
+	flex-direction: row;
+}
+
 .series-item-image {
 	max-width: 300px;
 	max-height: 200px;
 }
 
 .series-item {
-	width: 10em;
-	height: 6em;
+	width: 24em;
+	height: 32em;
+	border: 2px solid #000000;
+	border-radius: 7px;
+	margin: 0.2em 0.2em 0.2em 0.2em;
+	overflow: auto;
 }
 
 .foundation-item-image {
@@ -123,6 +138,10 @@ h1 {
 }
 
 .foundation-item {
-	width: 10em;
-	height: 6em;
+	margin: 0.5em 3em 0.5em 3em;
+	width: 24em;
+	height: 32em;
+	border: 2px solid #000000;
+	border-radius: 7px;
+	overflow: auto;
 }

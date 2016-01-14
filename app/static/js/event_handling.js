@@ -53,7 +53,6 @@ $(document).ready(
 		);
 
 		$('.submit-form').submit(() => {
-
 			const category = $('.category-chooser option:selected').text().toLowerCase();
 			const language = $('.language-chooser option:selected').text().toLowerCase();
 			const day = $('.day-chooser option:selected').text();
@@ -62,9 +61,11 @@ $(document).ready(
 
 			insert_loader_animation();
 
+			console.log('Getting JSON for ' + category);
+
 			get_json(category, year, month, day, language).done(
 				result => {
-					console.log('Received JSON result for ' + category + '.');
+					console.log('Received JSON result for:|' + category + '|.');
 					if (category === 'persons') {
 						var timeline_config = create_timeline_config();
 						window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
@@ -79,15 +80,21 @@ $(document).ready(
 						add_necessary_styling();
 
 					} else if (category === 'foundations') {
+						console.log('RENDERING FOUNDATIONS');
+						$('.result-container').empty();
 						_.each(result.result, (one_foundation, index, list) => {
-							foundations_html = build_series_item_html(one_foundation);
-							$(foundations_html).insertAfter('#timeline-embed > .flex-area');
+							foundations_html = build_foundation_item_html(one_foundation);
+							$('.result-container').append(foundations_html);
 						});
 
 					} else if (category === 'series') {
+						console.log('RENDERING SERIES');
+						$('.result-container').empty();
 						_.each(result.result, (one_series, index, list) => {
 							series_html = build_series_item_html(one_series);
-							$(series_html).insertAfter('#timeline-embed > .flex-area');
+							$('.result-container').append(series_html);
+							//$('#timeline-embed > .flex-area').add(series_html).appendTo( document.body );
+							//$(series_html).insertAfter('.result-container > span');
 						});
 					}
 				$('.ajax_loader_animation').remove();
