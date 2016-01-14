@@ -42,30 +42,30 @@ class HadoopPersonsParser:
 			
 			# skipp empty lines and comments
 			if line.startswith('#'):
-				print('SKIPPING (comment line)')
+				#print('SKIPPING (comment line)')
 				continue
 			if line == '':
-				print('SKIPPING (line empty)')
+				#print('SKIPPING (line empty)')
 				continue
 
 			values = line.split('\t')
-			print('Found', len(values), 'values in line.')
+			#print('Found', len(values), 'values in line.')
 
 			for value_index, value in enumerate(values):
 				for regex_index, compiled_regex in enumerate(self.regex_list):
 
-					if compiled_regex == self.url_regex:
-						print('checking for regex url')
-					if compiled_regex == self.date_regex:
-						print('checking for regex date')
-					if compiled_regex == self.name_regex:
-						print('checking for regex name')
-					if compiled_regex == self.birth_place_regex:
-						print('checking for regex birth place')
-					if compiled_regex == self.description_regex:
-						print('checking for regex description')
-					if compiled_regex == self.image_url_regex:
-						print('checking for regex image url')
+					#if compiled_regex == self.url_regex:
+					#	print('checking for regex url')
+					#if compiled_regex == self.date_regex:
+					#	print('checking for regex date')
+					#if compiled_regex == self.name_regex:
+					#	print('checking for regex name')
+					#if compiled_regex == self.birth_place_regex:
+					#	print('checking for regex birth place')
+					#if compiled_regex == self.description_regex:
+					#	print('checking for regex description')
+					#if compiled_regex == self.image_url_regex:
+					#	print('checking for regex image url')
 
 					# try to match the regexes
 					regex_match = compiled_regex.match(value)
@@ -79,7 +79,7 @@ class HadoopPersonsParser:
 							not line_attributes['last_name'] and  # we have not found a last name, which would separate birth date and death date
 							compiled_regex == self.date_regex  # we are checking for the date regex
 						):
-							print('===DATE FOUND===')
+							#print('===DATE FOUND===')
 							date = value.split('"')[1]
 							line_attributes['birth_date'] = date
 							line_attributes['birth_date_year'] = date.split('-')[0]
@@ -88,7 +88,7 @@ class HadoopPersonsParser:
 							break
 
 						elif compiled_regex == self.date_regex:  # we are checking for the date regex
-							print('===DATE FOUND===')
+							#print('===DATE FOUND===')
 							date = value.split('"')[1]
 							line_attributes['death_date'] = date
 							line_attributes['death_date_year'] = date.split('-')[0]
@@ -104,7 +104,7 @@ class HadoopPersonsParser:
 
 						### FIRST NAME & LAST NAME
 						elif compiled_regex == self.name_regex:
-							print('===NAME FOUND===')
+							#print('===NAME FOUND===')
 							if not line_attributes['last_name']:
 								# if there is only one match, we assume it to be the last name
 								line_attributes['last_name'] = value.split('"')[1]
@@ -116,7 +116,7 @@ class HadoopPersonsParser:
 						### BIRTH PLACE ###
 						# the regexes for url and birthplace are equal, but we assume, that there will always be a URL
 						if compiled_regex == self.birth_place_regex:
-							print('===BIRTH PLACE FOUND===')
+							#print('===BIRTH PLACE FOUND===')
 							if not line_attributes['birth_place']:
 								birth_place_parts = value.strip('<>').split('/')
 								birth_place = birth_place_parts[-1]
@@ -125,14 +125,14 @@ class HadoopPersonsParser:
 
 						### DESCRIPTION ###
 						elif compiled_regex == self.description_regex:
-							print('===DESCRIPTION FOUND===')
+							#print('===DESCRIPTION FOUND===')
 							if not line_attributes['description']:
 								line_attributes['description'] = value.split('"')[1]
 								break
 
 						### IMAGE URL ###
 						elif compiled_regex == self.image_url_regex:
-							print('===IMAGE URL FOUND===')
+							#print('===IMAGE URL FOUND===')
 							if not line_attributes['image_url']:
 								line_attributes['image_url'] = value.strip('<>\n')
 								break
@@ -257,7 +257,7 @@ class HadoopPersonsParser:
 			if line_attributes['description']: one_event['text']['text'] = line_attributes['description']
 
 			json_data['events'].append(one_event)
-			print('\njson_data[\'events\'] has now', len(json_data['events']), 'elements.\n')
+			#print('\njson_data[\'events\'] has now', len(json_data['events']), 'elements.\n')
 
 		# meta data block
 		json_data['title'] = {}
