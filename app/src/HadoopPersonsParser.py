@@ -64,7 +64,7 @@ class HadoopPersonsParser:
 							not line_attributes['last_name'] and  # we have not found a last name, which would separate birth date and death date
 							compiled_regex == self.date_regex  # we are checking for the date regex
 						):
-							print('SETTING BIRTH DATE FOR PERSON IN LINE', index)
+							#print('SETTING BIRTH DATE FOR PERSON IN LINE', index)
 							date = value.split('"')[1]
 							line_attributes['birth_date'] = date
 							line_attributes['birth_date_year'] = date.split('-')[0]
@@ -73,7 +73,7 @@ class HadoopPersonsParser:
 							break
 
 						elif compiled_regex == self.date_year_regex and not line_attributes['birth_date']:
-							print('SETTING BIRTH DATE ONLY YEAR FOR PERSON IN LINE', index)
+							#print('SETTING BIRTH DATE ONLY YEAR FOR PERSON IN LINE', index)
 							date = value.split('"')[1]
 							line_attributes['birth_date'] = date
 							line_attributes['birth_date_year'] = date.split('-')[0]

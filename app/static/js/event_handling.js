@@ -1,9 +1,12 @@
 const EVENT_HANDLED = false;
 const EVENT_NOT_HANDLED = true;
 
-DAYS_OF_MONTHS = [1,2,3,4,5,6,7,8,9,10,
-                  11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,
-                  26,26,27,28,29,30,31];
+DAYS_OF_MONTHS = [
+	1,2,3,4,5,6,7,8,9,
+	10,11,12,13,14,15,16,17,18,19,
+	20,21,22,23,24,25,26,27,28,29,
+	30,31
+];
 MONTH = [
 	'January',
 	'February',
@@ -44,6 +47,8 @@ languages_select = build_languages_select();
 // start of event handling code
 $(document).ready(
 	() => {
+		show_selects_for_category('persons');
+
 		$('.category-chooser').change(
 			() => {
 				category = $('.category-chooser').val().toLowerCase();
@@ -52,26 +57,25 @@ $(document).ready(
 		);
 
 		$('.submit-form').submit(() => {
-			console.log('BRAIN');
 			const category = $('.category-chooser option:selected').text().toLowerCase();
 			const language = $('.language-chooser option:selected').text().toLowerCase();
 			
-			// var raw_day = $('.day-chooser option:selected').text();
-			// if(raw_day.length === 1) {
-			// 	raw_day = '0' + raw_day;
-			// } else {
-			// 	raw_day = raw_day;
-			// }
-			// const day = raw_day;
-			// 
-			// var raw_month = $('.month-chooser option:selected').val();
-			// console.log(raw_month);
-			// if(raw_month.length === 1) {
-			// 	raw_month = '0' + raw_month;
-			// } else {
-			// 	raw_month = raw_month;
-			// }
-			// const month = raw_month;
+			var raw_day = $('.day-chooser option:selected').text();
+			if(raw_day.length === 1) {
+				raw_day = '0' + raw_day;
+			} else {
+				raw_day = raw_day;
+			}
+			const day = raw_day;
+			
+			var raw_month = $('.month-chooser option:selected').val();
+			console.log(raw_month);
+			if(raw_month.length === 1) {
+				raw_month = '0' + raw_month;
+			} else {
+				raw_month = raw_month;
+			}
+			const month = raw_month;
 			
 			const year = $('.year-chooser option:selected').text();
 
@@ -79,47 +83,58 @@ $(document).ready(
 
 			console.log('Getting JSON for ' + category);
 
-			get_json(category, year, language).done(
+			if (category === 'persons') {
+				get_json_with_complete_date(category, year, month, day, language).done(
 				result => {
 					console.log('Received JSON result for:|' + category + '|.');
-					if (category === 'persons') {
-						var timeline_config = create_timeline_config();
-						window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
+					console.log(result);
 
-						$('.tl-slidenav-content-container').on('click', function(event) {
-							console.log('next or previous clicked, removing stupid styling ...');
-							remove_unnecessary_direct_styling();
-							add_necessary_styling();
-						});
+					var timeline_config = create_timeline_config();
+					window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
 
+					$('.tl-slidenav-content-container').on('click', function(event) {
 						remove_unnecessary_direct_styling();
 						add_necessary_styling();
+					});
 
-					} else if (category === 'foundations') {
-						console.log('RENDERING FOUNDATIONS');
-						$('.result-container').empty();
-						_.each(result.result, (one_foundation, index, list) => {
-							foundations_html = build_foundation_item_html(one_foundation);
-							$('.result-container').append(foundations_html);
-						});
+					remove_unnecessary_direct_styling();
+					add_necessary_styling();
 
-					} else if (category === 'series') {
-						console.log('RENDERING SERIES');
-						$('.result-container').empty();
-						_.each(result.result, (one_series, index, list) => {
-							series_html = build_series_item_html(one_series);
-							$('.result-container').append(series_html);
-							//$('#timeline-embed > .flex-area').add(series_html).appendTo( document.body );
-							//$(series_html).insertAfter('.result-container > span');
-						});
+					$('.ajax_loader_animation').remove();
+				}).fail(
+					result => {
+						console.log('AJAX REQUEST FAILED!');
 					}
-				$('.ajax_loader_animation').remove();
-				}
-			).fail(
-				result => {
-					console.log('AJAX REQUEST FAILED!');
-				}
-			);
+				);
+			}
+
+			if (category === 'foundations' || category === 'series') {
+				get_json(category, year, language).done(
+					result => {
+						if (category === 'foundations') {
+							console.log('RENDERING FOUNDATIONS');
+							$('.result-container').empty();
+							_.each(result.result, (one_foundation, index, list) => {
+								foundations_html = build_foundation_item_html(one_foundation);
+								$('.result-container').append(foundations_html);
+							});
+
+						} else if (category === 'series') {
+							console.log('RENDERING SERIES');
+							$('.result-container').empty();
+							_.each(result.result, (one_series, index, list) => {
+								series_html = build_series_item_html(one_series);
+								$('.result-container').append(series_html);
+							});
+						}
+						$('.ajax_loader_animation').remove();
+					}
+				).fail(
+					result => {
+						console.log('AJAX REQUEST FAILED!');
+					}
+				);
+			}
 
 			return EVENT_HANDLED;
 		});
@@ -166,8 +181,16 @@ function show_selects_for_category(category) {
 		children.eq(child_index).remove();
 	}
 
-	children.eq(0).after(languages_select);
-	children.eq(0).after(years_select);
+	if (category === 'persons') {
+		children.eq(0).after(languages_select);
+		children.eq(0).after(days_select);
+		children.eq(0).after(months_select);
+		children.eq(0).after(years_select);
+
+	} else {
+		children.eq(0).after(languages_select);
+		children.eq(0).after(years_select);
+	}
 }
 
 function daysInMonth(month, year) {
@@ -241,10 +264,21 @@ function build_languages_select() {
 /**
  * This function retrieves JSON data from the server. The returned JSON data should be in the timeline.js JSON data format.
  */
+function get_json_with_complete_date(category, year, month, day, language) {
+	var url = '/' + category + '/' + year + '/' + month + '/' + day + '/' + language;
+	console.log('Getting JSON from REST URL: ' + url);
+
+	return $.ajax({
+		type: 'GET',
+		url: url,
+		data: {},
+		contentType: 'application/json;charset=UTF-8'
+	});
+}
 function get_json(category, year, language) {
 	var url = '/' + category + '/' + year + '/' + language;
 	console.log('Getting JSON from REST URL: ' + url);
-	
+
 	return $.ajax({
 		type: 'GET',
 		url: url,

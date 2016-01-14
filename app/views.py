@@ -58,17 +58,11 @@ def index():
 		categories=CATEGORIES
 	)
 
-@app.route('/persons/<year>/<language>', methods=["GET"])
-def what_happened_persons(year, language):
+@app.route('/persons/<year>/<month>/<day>/<language>', methods=["GET"])
+def what_happened_persons(year, month, day, language):
 	"""this function handles GET requests for JSON data from DBPedia. The URL contains data, which will be used to query the server."""
 
-	# print('Received request!')
-	# print('year:', year)
-	# print('month:', month)
-	# print('day:', day)
-	# print('language:', language)
-
-	result_data = get_data_from_hadoop('persons', year, language)
+	result_data = get_data_from_hadoop('persons', year, month, day, language)
 	print('got result data')
 
 	return jsonify(result_data)
@@ -76,17 +70,17 @@ def what_happened_persons(year, language):
 @app.route('/foundations/<year>/<language>', methods=["GET"])
 def what_happened_foundations(year, language):
 	print('Foundations called.')
-	result_data = get_data_from_hadoop('foundations', year, language)
+	result_data = get_data_from_hadoop('foundations', year, '', '', language)
 	return jsonify(result=result_data)
 
 @app.route('/series/<year>/<language>', methods=["GET"])
 def what_happened_series(year, language):
 	print('Series called.')
-	result_data = get_data_from_hadoop('series', year, language)
+	result_data = get_data_from_hadoop('series', year, '', '', language)
 	return jsonify(result=result_data)
 
 
-def get_data_from_hadoop(category, year, language):
+def get_data_from_hadoop(category, year, month, day, language):
 	"""This function takes care of building a query from its parameters."""
 
 	print('getting data from Hadoop ...')
@@ -110,7 +104,11 @@ def get_data_from_hadoop(category, year, language):
 		lines_attributes = parser.parse(lines)
 
 		return parser.build_json(
-			[elem for elem in lines_attributes if elem['birth_date_year'] == year]
+			[elem for elem in lines_attributes if (
+				elem['birth_date_year'] == year and
+				elem['birth_date_month'] == month and
+				elem['birth_date_day'] == day
+			)]
 		)
 
 	elif category == 'foundations':
