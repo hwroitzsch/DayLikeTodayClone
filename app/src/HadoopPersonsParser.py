@@ -118,21 +118,21 @@ class HadoopPersonsParser:
 								line_attributes['image_url'] = value.strip('<>\n')
 								break
 
-			print('====================\nATTRIBUTES OF LINE:')
-			print('url:', line_attributes['url'])
-			print('birth_date:', line_attributes['birth_date'])
-			print('birth_date_year:', line_attributes['birth_date_year'])
-			print('birth_date_month:', line_attributes['birth_date_month'])
-			print('birth_date_day:', line_attributes['birth_date_day'])
-			print('last_name:', line_attributes['last_name'])
-			print('first_name:', line_attributes['first_name'])
-			print('birth_place:', line_attributes['birth_place'])
-			print('death_date:', line_attributes['death_date'])
-			print('death_date_year:', line_attributes['death_date_year'])
-			print('death_date_month:', line_attributes['death_date_month'])
-			print('death_date_day:', line_attributes['death_date_day'])
-			print('description:', line_attributes['description'])
-			print('image_url:', line_attributes['image_url'])
+			#print('====================\nATTRIBUTES OF LINE:')
+			#print('url:', line_attributes['url'])
+			#print('birth_date:', line_attributes['birth_date'])
+			#print('birth_date_year:', line_attributes['birth_date_year'])
+			#print('birth_date_month:', line_attributes['birth_date_month'])
+			#print('birth_date_day:', line_attributes['birth_date_day'])
+			#print('last_name:', line_attributes['last_name'])
+			#print('first_name:', line_attributes['first_name'])
+			#print('birth_place:', line_attributes['birth_place'])
+			#print('death_date:', line_attributes['death_date'])
+			#print('death_date_year:', line_attributes['death_date_year'])
+			#print('death_date_month:', line_attributes['death_date_month'])
+			#print('death_date_day:', line_attributes['death_date_day'])
+			#print('description:', line_attributes['description'])
+			#print('image_url:', line_attributes['image_url'])
 
 			list_of_line_attributes.append(line_attributes)
 
@@ -250,7 +250,7 @@ class HadoopPersonsParser:
 		json_data['title']['text']['headline'] = 'People<br/>From-To: ' + text_one_birth_date + ' - ' + text_latest_death_date
 		json_data['title']['text']['text'] = '<p>These are people born the same day.</p>'
 
-		print('LENGTH OF JSON DATA:', len(json_data))
-		print('JSON DATA:', json_data)
+		#print('LENGTH OF JSON DATA:', len(json_data))
+		#print('JSON DATA:', json_data)
 
 		return json_data

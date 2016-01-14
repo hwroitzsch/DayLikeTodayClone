@@ -12,7 +12,7 @@ from .src.SeriesFileReader import SeriesFileReader
 from .src.FoundationsFileReader import FoundationsFileReader
 from .src.PersonsFileReader import PersonsFileReader
 
-__author__ = "Hans-Werner Roitzsch"
+__author__ = "Hans-Werner Roitzsch, Christian Günther"
 
 DAYS = [x+1 for x in range(31)]
 MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -31,11 +31,25 @@ CATEGORIES = [
 	'Series'
 ]
 
+# paths for hadoop result files
+# PATH_FOUNDATIONS_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_en'
+# PATH_FOUNDATIONS_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_de'
+# PATH_SERIES_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Series_en'
+# PATH_SERIES_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Series_de'
+# PATH_PERSONS_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_en'
+# PATH_PERSONS_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_de'
+
+PATH_FOUNDATIONS_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Foundations_en'
+PATH_FOUNDATIONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Foundations_de'
+PATH_SERIES_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_en'
+PATH_SERIES_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_de'
+PATH_PERSONS_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_en'
+PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_de'
+
 @app.route('/')
 @app.route('/index')
 def index():
 	"""This function handles requests for the landing page. It renders a Jinja2 template and returns the resulting HTML code."""
-
 	return render_template(
 		'content.j2',
 		title=TITLE,
@@ -87,11 +101,11 @@ def get_data_from_hadoop(category, year, month, day, language):
 		
 		if language == 'english':
 			#lines = HDFSFileReader.read('Persons_en')
-			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_en')
+			lines = file_reader.read(PATH_PERSONS_EN)
 			
 		elif language == 'german':
 			#lines = HDFSFileReader.read('Persons_de')
-			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_de')
+			lines = file_reader.read(PATH_PERSONS_EN)
 		else:
 			print('Language unknown.')
 
@@ -102,9 +116,9 @@ def get_data_from_hadoop(category, year, month, day, language):
 		file_reader = FoundationsFileReader()
 		print('Getting Foundations')
 		if language == 'english':
-			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_en')
+			lines = file_reader.read(PATH_FOUNDATIONS_EN)
 		elif language == 'german':
-			lines = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_de')
+			lines = file_reader.read(PATH_FOUNDATIONS_DE)
 		else:
 			print('Language unknown.')
 
@@ -123,10 +137,10 @@ def get_data_from_hadoop(category, year, month, day, language):
 		file_reader = SeriesFileReader()
 		print('Getting Series')
 		if language == 'english':
-			lines_attributes = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Serien_en')
+			lines_attributes = file_reader.read(PATH_SERIES_EN)
 			#lines = HDFSFileReader.read('Series_en')
 		elif language == 'german': # TODO
-			lines_attributes = file_reader.read('/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Serien_de')
+			lines_attributes = file_reader.read(PATH_SERIES_DE)
 			#lines = HDFSFileReader.read('Series_de')
 		else:
 			print('Language unknown.')
