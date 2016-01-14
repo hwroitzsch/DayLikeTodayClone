@@ -121,7 +121,6 @@ def get_data_from_hadoop(category, year, month, day, language):
 		lines_attributes = [attr for attr in lines_attributes if attr['start_date_year'] == year]
 		return lines_attributes
 
-
 	elif category == 'series':
 		file_reader = SeriesFileReader()
 		print('Getting Series')
@@ -136,4 +135,3 @@ def get_data_from_hadoop(category, year, month, day, language):
 
 		lines_attributes = [attr for attr in lines_attributes if attr['start_date_year'] == year]
 		return lines_attributes
-
