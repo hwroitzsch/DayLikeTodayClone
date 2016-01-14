@@ -44,7 +44,7 @@ PATH_FOUNDATIONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday
 PATH_SERIES_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_en'
 PATH_SERIES_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_de'
 PATH_PERSONS_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_en'
-PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_de'
+PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_reduced_de'
 
 @app.route('/')
 @app.route('/index')
@@ -56,8 +56,6 @@ def index():
 		authors=AUTHORS,
 		categories=CATEGORIES
 	)
-
-
 
 @app.route('/persons/<year>/<month>/<day>/<language>', methods=["GET"])
 def what_happened_persons(year, month, day, language):
@@ -77,16 +75,14 @@ def what_happened_persons(year, month, day, language):
 @app.route('/foundations/<year>/<language>', methods=["GET"])
 def what_happened_foundations(year, language):
 	print('Foundations called.')
-
 	result_data = get_data_from_hadoop('foundations', year, None, None, language)
-	return result_data
+	return jsonify(result_data)
 
 @app.route('/series/<year>/<language>', methods=["GET"])
 def what_happened_series(year, language):
 	print('Series called.')
 	result_data = get_data_from_hadoop('series', year, None, None, language)
-	return result_data
-	return 'not yet implemented'
+	return jsonify(result=result_data)
 
 
 def get_data_from_hadoop(category, year, month, day, language):
@@ -105,12 +101,12 @@ def get_data_from_hadoop(category, year, month, day, language):
 			
 		elif language == 'german':
 			#lines = HDFSFileReader.read('Persons_de')
-			lines = file_reader.read(PATH_PERSONS_EN)
+			lines = file_reader.read(PATH_PERSONS_DE)
 		else:
 			print('Language unknown.')
 
 		parser = HadoopPersonsParser()
-		return jsonify(parser.parse(lines))
+		return parser.parse(lines)
 
 	elif category == 'foundations':
 		file_reader = FoundationsFileReader()
@@ -122,15 +118,8 @@ def get_data_from_hadoop(category, year, month, day, language):
 		else:
 			print('Language unknown.')
 
-		#parser = HadoopFoundationsParser()
-		#result = parser.parse(lines)  # returns a dictionary
-
-		#return jsonify(result)
 		lines_attributes = [attr for attr in lines_attributes if attr['start_date_year'] == year]
-		result = jsonify(result=lines_attributes)
-		#print(lines_attributes)
-		#print(result)
-		return jsonify(result=lines_attributes)
+		return lines_attributes
 
 
 	elif category == 'series':
@@ -145,14 +134,6 @@ def get_data_from_hadoop(category, year, month, day, language):
 		else:
 			print('Language unknown.')
 
-		#parser = HadoopSeriesParser()
-		#json_result = parser.parse(lines)
-		#json_result = [elem for elem in json_result if elem['foundation_date_year'] == year]  # only return the ones of the year specified by the user
-
-		#return jsonify(json_result)
 		lines_attributes = [attr for attr in lines_attributes if attr['start_date_year'] == year]
-		result = jsonify(result=lines_attributes)
-		#print(lines_attributes)
-		#print(result)
-		return jsonify(result=lines_attributes)
+		return lines_attributes
 

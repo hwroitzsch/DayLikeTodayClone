@@ -18,7 +18,7 @@ class HadoopPersonsParser:
 		self.birth_place_regex = re.compile(r'^<((http|https|ftp)://)?(www\.)?.*\.([a-zA-Z]{2,3})(/|[\w#-])*>$')
 
 		#"britischer Logiker, Mathematiker und Kryptoanalytiker"@de
-		self.description_regex = re.compile(r'"(\w*| |,|\.|;|:|\-)*"@(de|en)')
+		self.description_regex = re.compile(r'^".*"@(de|en)$')
 
 		#<http://commons.wikimedia.org/wiki/Special:FilePath/Alan_Turing_cropped.jpg>
 		self.image_url_regex = re.compile(r'^<((http|https|ftp)://)?(www\.)?(\w*|\.|\-)*([a-zA-Z]{2,3})(/|:|[\w#-])*\.(png|jpg|jpeg|svg|gif|gifv|bmp)>$')
@@ -38,8 +38,9 @@ class HadoopPersonsParser:
 
 		for index,line in enumerate(result_data):
 			line = line.strip('\n')
-			# skipp empty lines and comments
 			print('===LINE:', index+1, '===', line)
+			
+			# skipp empty lines and comments
 			if line.startswith('#'):
 				print('SKIPPING (comment line)')
 				continue
@@ -48,13 +49,26 @@ class HadoopPersonsParser:
 				continue
 
 			values = line.split('\t')
-
+			print('Found', len(values), 'values in line.')
 
 			for value_index, value in enumerate(values):
 				for regex_index, compiled_regex in enumerate(self.regex_list):
-					# try to match the regex
-					regex_match = compiled_regex.match(value)
 
+					if compiled_regex == self.url_regex:
+						print('checking for regex url')
+					if compiled_regex == self.date_regex:
+						print('checking for regex date')
+					if compiled_regex == self.name_regex:
+						print('checking for regex name')
+					if compiled_regex == self.birth_place_regex:
+						print('checking for regex birth place')
+					if compiled_regex == self.description_regex:
+						print('checking for regex description')
+					if compiled_regex == self.image_url_regex:
+						print('checking for regex image url')
+
+					# try to match the regexes
+					regex_match = compiled_regex.match(value)
 
 					if regex_match:
 						### BIRTH DATE & DEATH DATE ###
@@ -65,6 +79,7 @@ class HadoopPersonsParser:
 							not line_attributes['last_name'] and  # we have not found a last name, which would separate birth date and death date
 							compiled_regex == self.date_regex  # we are checking for the date regex
 						):
+							print('===DATE FOUND===')
 							date = value.split('"')[1]
 							line_attributes['birth_date'] = date
 							line_attributes['birth_date_year'] = date.split('-')[0]
@@ -73,6 +88,7 @@ class HadoopPersonsParser:
 							break
 
 						elif compiled_regex == self.date_regex:  # we are checking for the date regex
+							print('===DATE FOUND===')
 							date = value.split('"')[1]
 							line_attributes['death_date'] = date
 							line_attributes['death_date_year'] = date.split('-')[0]
@@ -81,13 +97,14 @@ class HadoopPersonsParser:
 							break
 
 						### URL ###
-						if compiled_regex == self.url_regex:
+						elif compiled_regex == self.url_regex:
 							if not line_attributes['url']:
 								line_attributes['url'] = value.strip('<>')
 								break
 
 						### FIRST NAME & LAST NAME
-						if compiled_regex == self.name_regex:
+						elif compiled_regex == self.name_regex:
+							print('===NAME FOUND===')
 							if not line_attributes['last_name']:
 								# if there is only one match, we assume it to be the last name
 								line_attributes['last_name'] = value.split('"')[1]
@@ -99,6 +116,7 @@ class HadoopPersonsParser:
 						### BIRTH PLACE ###
 						# the regexes for url and birthplace are equal, but we assume, that there will always be a URL
 						if compiled_regex == self.birth_place_regex:
+							print('===BIRTH PLACE FOUND===')
 							if not line_attributes['birth_place']:
 								birth_place_parts = value.strip('<>').split('/')
 								birth_place = birth_place_parts[-1]
@@ -106,17 +124,21 @@ class HadoopPersonsParser:
 								break
 
 						### DESCRIPTION ###
-						if compiled_regex == self.description_regex:
+						elif compiled_regex == self.description_regex:
+							print('===DESCRIPTION FOUND===')
 							if not line_attributes['description']:
 								line_attributes['description'] = value.split('"')[1]
 								break
 
 						### IMAGE URL ###
-						if compiled_regex == self.image_url_regex:
+						elif compiled_regex == self.image_url_regex:
 							print('===IMAGE URL FOUND===')
 							if not line_attributes['image_url']:
 								line_attributes['image_url'] = value.strip('<>\n')
 								break
+
+						else:
+							break
 
 			#print('====================\nATTRIBUTES OF LINE:')
 			#print('url:', line_attributes['url'])
