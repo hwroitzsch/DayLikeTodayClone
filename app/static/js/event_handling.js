@@ -55,8 +55,23 @@ $(document).ready(
 		$('.submit-form').submit(() => {
 			const category = $('.category-chooser option:selected').text().toLowerCase();
 			const language = $('.language-chooser option:selected').text().toLowerCase();
-			const day = $('.day-chooser option:selected').text();
-			const month = $('.month-chooser option:selected').text();
+			
+			var raw_day = $('.day-chooser option:selected').text();
+			if(raw_day.length === 1) {
+				raw_day = '0' + raw_day;
+			} else {
+				raw_day = raw_day;
+			}
+			const day = raw_day;
+			
+			var raw_month = $('.month-chooser option:selected').val();
+			if(raw_month.length === 1) {
+				raw_month = '0' + raw_month;
+			} else {
+				raw_month = raw_month;
+			}
+			const month = raw_month;
+			
 			const year = $('.year-chooser option:selected').text();
 
 			insert_loader_animation();
@@ -185,7 +200,7 @@ function build_years_select() {
 function build_months_select() {
 	months_options = ''
 	_.each(MONTH, (element, index, list) => {
-		months_options += '<option value="' + index + '">' + element + '</option>\n';
+		months_options += '<option value="' + (index + 1) + '">' + element + '</option>\n';
 	});
 	months_select = $(
 		'<div>' +
@@ -201,7 +216,7 @@ function build_months_select() {
 function build_days_select() {
 	days_options = ''
 	_.each(DAYS_OF_MONTHS, (element, index, list) => {
-		days_options += '<option value="' + index + '">' + element + '</option>\n';
+		days_options += '<option value="' + (index + 1) + '">' + element + '</option>\n';
 	});
 	days_select = $(
 		'<div>' +

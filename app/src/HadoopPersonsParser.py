@@ -38,7 +38,7 @@ class HadoopPersonsParser:
 
 		for index,line in enumerate(result_data):
 			line = line.strip('\n')
-			print('===LINE:', index+1, '===', line)
+			#print('===LINE:', index+1, '===', line)
 			
 			# skipp empty lines and comments
 			if line.startswith('#'):
@@ -160,7 +160,7 @@ class HadoopPersonsParser:
 
 			line_attributes = self.get_initial_line_attributes()
 
-		return self.build_json(list_of_line_attributes)
+		return list_of_line_attributes
 
 
 	def get_initial_line_attributes(self):

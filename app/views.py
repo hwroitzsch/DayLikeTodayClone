@@ -106,7 +106,15 @@ def get_data_from_hadoop(category, year, month, day, language):
 			print('Language unknown.')
 
 		parser = HadoopPersonsParser()
-		return parser.parse(lines)
+		lines_attributes = parser.parse(lines)
+
+		return parser.build_json(
+			[elem for elem in lines_attributes if (
+				elem['birth_date_year'] == year and 
+				elem['birth_date_month'] == month and 
+				elem['birth_date_day'] == day
+			)]
+		)
 
 	elif category == 'foundations':
 		file_reader = FoundationsFileReader()
