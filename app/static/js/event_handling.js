@@ -79,8 +79,10 @@ $(document).ready(
 						add_necessary_styling();
 
 					} else if (category === 'foundations') {
-						console.log(result);
-						$('#timeline-embed').add('<p>ADDED</p>')
+						_.each(result.result, (one_foundation, index, list) => {
+							foundations_html = build_series_item_html(one_foundation);
+							$(foundations_html).insertAfter('#timeline-embed > .flex-area');
+						});
 
 					} else if (category === 'series') {
 						_.each(result.result, (one_series, index, list) => {
