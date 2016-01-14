@@ -43,7 +43,6 @@ languages_select = build_languages_select();
 
 // start of event handling code
 $(document).ready(
-
 	() => {
 		$('.category-chooser').change(
 			() => {
@@ -53,24 +52,26 @@ $(document).ready(
 		);
 
 		$('.submit-form').submit(() => {
+			console.log('BRAIN');
 			const category = $('.category-chooser option:selected').text().toLowerCase();
 			const language = $('.language-chooser option:selected').text().toLowerCase();
 			
-			var raw_day = $('.day-chooser option:selected').text();
-			if(raw_day.length === 1) {
-				raw_day = '0' + raw_day;
-			} else {
-				raw_day = raw_day;
-			}
-			const day = raw_day;
-			
-			var raw_month = $('.month-chooser option:selected').val();
-			if(raw_month.length === 1) {
-				raw_month = '0' + raw_month;
-			} else {
-				raw_month = raw_month;
-			}
-			const month = raw_month;
+			// var raw_day = $('.day-chooser option:selected').text();
+			// if(raw_day.length === 1) {
+			// 	raw_day = '0' + raw_day;
+			// } else {
+			// 	raw_day = raw_day;
+			// }
+			// const day = raw_day;
+			// 
+			// var raw_month = $('.month-chooser option:selected').val();
+			// console.log(raw_month);
+			// if(raw_month.length === 1) {
+			// 	raw_month = '0' + raw_month;
+			// } else {
+			// 	raw_month = raw_month;
+			// }
+			// const month = raw_month;
 			
 			const year = $('.year-chooser option:selected').text();
 
@@ -78,7 +79,7 @@ $(document).ready(
 
 			console.log('Getting JSON for ' + category);
 
-			get_json(category, year, month, day, language).done(
+			get_json(category, year, language).done(
 				result => {
 					console.log('Received JSON result for:|' + category + '|.');
 					if (category === 'persons') {
@@ -165,16 +166,8 @@ function show_selects_for_category(category) {
 		children.eq(child_index).remove();
 	}
 
-	if (category === 'persons') {
-		children.eq(0).after(languages_select);
-		children.eq(0).after(days_select);
-		children.eq(0).after(months_select);
-		children.eq(0).after(years_select);
-
-	} else if (category === 'foundations' || category === 'series') {
-		children.eq(0).after(languages_select);
-		children.eq(0).after(years_select);
-	}
+	children.eq(0).after(languages_select);
+	children.eq(0).after(years_select);
 }
 
 function daysInMonth(month, year) {
@@ -248,21 +241,10 @@ function build_languages_select() {
 /**
  * This function retrieves JSON data from the server. The returned JSON data should be in the timeline.js JSON data format.
  */
-function get_json(category, year, month, day, language) {
-	var url = '';
-
-	if (category === 'persons') {
-		url += '/' + category + '/' + year + '/' + month + '/' + day + '/' + language;
-	} else if (category === 'foundations') {
-		url += '/' + category + '/' + year + '/' + language;
-	} else if (category === 'series') {
-		url += '/' + category + '/' + year + '/' + language;
-	} else {
-		console.log('unknown category chosen');
-	}
-
+function get_json(category, year, language) {
+	var url = '/' + category + '/' + year + '/' + language;
 	console.log('Getting JSON from REST URL: ' + url);
-
+	
 	return $.ajax({
 		type: 'GET',
 		url: url,
