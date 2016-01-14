@@ -109,6 +109,18 @@ $(document).ready(
 	}
 );
 
+function build_foundation_item_html(one_foundation) {
+	return '<div class="foundation-item">'+
+			'<p><a href="' + one_foundation.url + '">Link</a></p>' +
+			'<p>Name:' + one_foundation.name + '</p>' +
+			'<p>Start Date:' + one_foundation.start_date + '</p>' + 
+			'<p>Type of Business:' + one_foundation.type + '</p>' + 
+			'<p>Revenue:' + one_foundation.revenue + '</p>' + 
+			'<p><img class="foundation-item-image" src="' + one_foundation.image_url + '" alt="IMAGE"></img></p>' +
+			'<p>Summary: ' + one_foundation.summary + '</p>' +
+		'</div>';
+}
+
 function build_series_item_html(one_series) {
 	return '<div class="series-item">'+
 			'<p><a href="' + one_series.url + '">Link</a></p>' +

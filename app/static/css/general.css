@@ -112,4 +112,17 @@ h1 {
 	max-height: 200px;
 }
 
+.series-item {
+	width: 10em;
+	height: 6em;
+}
 
+.foundation-item-image {
+	max-width: 300px;
+	max-height: 200px;
+}
+
+.foundation-item {
+	width: 10em;
+	height: 6em;
+}

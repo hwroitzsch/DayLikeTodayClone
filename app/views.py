@@ -76,7 +76,7 @@ def what_happened_persons(year, month, day, language):
 def what_happened_foundations(year, language):
 	print('Foundations called.')
 	result_data = get_data_from_hadoop('foundations', year, None, None, language)
-	return jsonify(result_data)
+	return jsonify(result=result_data)
 
 @app.route('/series/<year>/<language>', methods=["GET"])
 def what_happened_series(year, language):
@@ -112,9 +112,9 @@ def get_data_from_hadoop(category, year, month, day, language):
 		file_reader = FoundationsFileReader()
 		print('Getting Foundations')
 		if language == 'english':
-			lines = file_reader.read(PATH_FOUNDATIONS_EN)
+			lines_attributes = file_reader.read(PATH_FOUNDATIONS_EN)
 		elif language == 'german':
-			lines = file_reader.read(PATH_FOUNDATIONS_DE)
+			lines_attributes = file_reader.read(PATH_FOUNDATIONS_DE)
 		else:
 			print('Language unknown.')
 
