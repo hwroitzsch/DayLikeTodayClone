@@ -1,126 +1,108 @@
-const EVENT_HANDLED = false;
-const EVENT_NOT_HANDLED = true;
+	const EVENT_HANDLED = false;
+	const EVENT_NOT_HANDLED = true;
 
-DAYS_OF_MONTHS = [
-	1,2,3,4,5,6,7,8,9,
-	10,11,12,13,14,15,16,17,18,19,
-	20,21,22,23,24,25,26,27,28,29,
-	30,31
-];
-MONTH = [
-	'January',
-	'February',
-	'March',
-	'April',
-	'May',
-	'June',
-	'July',
-	'August',
-	'September',
-	'October',
-	'November',
-	'December'
-];
+	DAYS_OF_MONTHS = [
+		1,2,3,4,5,6,7,8,9,
+		10,11,12,13,14,15,16,17,18,19,
+		20,21,22,23,24,25,26,27,28,29,
+		30,31
+	];
+	MONTH = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December'
+	];
 
-YEARS = [];
-LANGUAGES = [
-	'English',
-	'German'
-];
+	YEARS = [];
+	LANGUAGES = [
+		'English',
+		'German'
+	];
 
-current_date = new Date();
-current_year = current_date.getFullYear();
+	current_date = new Date();
+	current_year = current_date.getFullYear();
 
-for (var year = 1900; year <= current_year; year++) {
-	YEARS.push(year);
-}
-
-
-
-// BUILD THE  SELECT BOXES, TO ADD AND REMOVE THEM DYNAMICALLY
-years_select = build_years_select();
-months_select = build_months_select();
-days_select = build_days_select();
-languages_select = build_languages_select();
+	for (var year = 1900; year <= current_year; year++) {
+		YEARS.push(year);
+	}
 
 
-// start of event handling code
-$(document).ready(
-	() => {
-		show_selects_for_category('persons');
 
-		$('.category-chooser').change(
-			() => {
-				category = $('.category-chooser').val().toLowerCase();
-				show_selects_for_category(category);
-			}
-		);
+	// BUILD THE  SELECT BOXES, TO ADD AND REMOVE THEM DYNAMICALLY
+	years_select = build_years_select();
+	months_select = build_months_select();
+	days_select = build_days_select();
+	languages_select = build_languages_select();
 
-		$('.submit-form').submit(() => {
-			const category = $('.category-chooser option:selected').text().toLowerCase();
-			const language = $('.language-chooser option:selected').text().toLowerCase();
-			
-			const year = $('.year-chooser option:selected').text();
 
-			insert_loader_animation();
+	// start of event handling code
+	$(document).ready(
+		() => {
+			show_selects_for_category('persons');
 
-			console.log('Getting JSON for ' + category);
+			$('.category-chooser').change(
+				() => {
+					category = $('.category-chooser').val().toLowerCase();
+					show_selects_for_category(category);
+				}
+			);
 
-			if (category === 'persons') {
-			
-				raw_day = $('.day-chooser option:selected').text();
-                        	if(raw_day.length === 1) {
-                                	raw_day = '0' + raw_day;
-                        	} else {
-                                	raw_day = raw_day;
-                        	}
-                        	const day = raw_day;
+			$('.submit-form').submit(() => {
+				const category = $('.category-chooser option:selected').text().toLowerCase();
+				const language = $('.language-chooser option:selected').text().toLowerCase();
+				const year = $('.year-chooser option:selected').text();
+				insert_loader_animation();
+				console.log('Getting JSON for ' + category);
+				if (category==='persons'){
 
-                        	raw_month = $('.month-chooser option:selected').val();
-                        	console.log(raw_month);
-                       	 	if(raw_month.length === 1) {
-                        	        raw_month = '0' + raw_month;
-                       		 } else {
-                                	raw_month = raw_month;
-                        	}
-                        	const month = raw_month;
-
-				get_json_with_complete_date(category, year, month, day, language).done(
-				result => {
-					console.log('Received JSON result for:|' + category + '|.');
-					console.log(result);
-
-					var timeline_config = create_timeline_config();
-					window.timeline = new TL.Timeline('timeline-embed', result, timeline_config);
-
-					$('.tl-slidenav-content-container').on('click', function(event) {
-						remove_unnecessary_direct_styling();
-						add_necessary_styling();
-					});
-
-					remove_unnecessary_direct_styling();
-					add_necessary_styling();
-
-					$('.ajax_loader_animation').remove();
-				}).fail(
-					result => {
-						console.log('AJAX REQUEST FAILED!');
+					
+					var month = $('.month-chooser option:selected').val(); 
+					var day = $('.day-chooser option:selected').val();
+					
+					if (parseInt(month) < 10){
+						month = '0' + month;
 					}
-				);
-			}
 
-			if (category === 'foundations' || category === 'series') {
-				get_json(category, year, language).done(
-					result => {
-						if (category === 'foundations') {
-							console.log('RENDERING FOUNDATIONS');
-							$('.result-container').empty();
-							_.each(result.result, (one_foundation, index, list) => {
-								foundations_html = build_foundation_item_html(one_foundation);
-								$('.result-container').append(foundations_html);
-							});
+					if (parseInt(day) < 10){
+						day = '0' + day;
+					}
+					 
+					get_json_with_complete_date(category,year,month,day,language).done(
+						result => {
+							     console.log('RENDERING PERSONS');
+							     $('.result-container').empty();
+							     _.each(result.result, (one_person, index, list) => {
+								    person_html = build_person_item_html(one_person);
+								    $('.result-container').append(person_html);
+							     });
+						$('.ajax_loader_animation').remove();
+					}).fail(
+						result => {
+							console.log('AJAX REQUEST FAILED!');
+						}
+					);
 
-						} else if (category === 'series') {
+				}else if (category==='foundations' || category==='series') {
+					get_json(category, year, language).done(
+						result => {
+							if (category === 'foundations') {
+								console.log('RENDERING FOUNDATIONS');
+								$('.result-container').empty();
+								_.each(result.result, (one_foundation, index, list) => {
+									foundations_html = build_foundation_item_html(one_foundation);
+									$('.result-container').append(foundations_html);
+								});
+
+							} else if (category === 'series') {
 							console.log('RENDERING SERIES');
 							$('.result-container').empty();
 							_.each(result.result, (one_series, index, list) => {
@@ -129,27 +111,32 @@ $(document).ready(
 							});
 						}
 						$('.ajax_loader_animation').remove();
-					}
-				).fail(
-					result => {
-						console.log('AJAX REQUEST FAILED!');
-					}
-				);
-			}
+					
+					}).fail(
+						result => {
+							console.log('AJAX REQUEST FAILED!');
+						}
+					);
+				}
+				
 
 			return EVENT_HANDLED;
 		});
 
-		$('.tl-slidenav-content-container').click(() => {
-			setTimeout(() => {
-				remove_unnecessary_direct_styling();
-				add_necessary_styling();
-				alert('ALERT');
-			}, 1);
-		});
 	}
 );
 
+
+function build_person_item_html(one_person) {
+        return '<div class="person-item">'+
+                        '<p><a href="' + one_person.url + '">Link</a></p>' +
+                        '<p>Name:' + one_person.name + ' ' +  one_person.surname + '</p>' +
+                        '<p>Place of Birth: ' + one_person.birthplace + '</p>' +
+                        '<p>Date of Death: ' + one_person.deathdate + '</p>' +
+                        '<p>Description: ' + one_person.description + '</p>' +
+                        '<p><img class="person-item-image" src="' + one_person.image_url + '" alt="IMAGE"></img></p>' +
+                '</div>';
+}
 
 function build_foundation_item_html(one_foundation) {
 	return '<div class="foundation-item">'+
@@ -356,3 +343,4 @@ function add_necessary_styling() {
 		'max-height': '200px'
 	});
 }
+

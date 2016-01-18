@@ -28,13 +28,13 @@ class HadoopPersonsParser:
 				if line_parts[3]:
 					line_attributes['name'] = line_parts[3].split('"', -1)[1]
 				if line_parts[4]:
-					line_attributes['birthplace'] = line_parts[4].split('/', -1)[4]
+					line_attributes['birthplace'] = line_parts[4].strip('<>').split('/',-1)[-1]
 				if line_parts[5]:
 					line_attributes['deathdate'] = line_parts[5].split('"', -1)[1]
 				if line_parts[6]:
 					line_attributes['description'] = line_parts[6].split('"', -1)[1]
 				if line_parts[7]:
-					line_attributes['image_url'] = line_parts[7].strip('<>')
+					line_attributes['image_url'] = line_parts[7].strip('<>\n')
 				
 				lines_attributes.append(line_attributes)
 			else:

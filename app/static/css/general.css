@@ -147,3 +147,20 @@ h1 {
 	overflow: auto;
 	padding: 0.3em;
 }
+
+
+.person-item-image {
+        max-width: 300px;
+        max-height: 200px;
+}
+
+.person-item {
+        margin: 0.5em 3em 0.5em 3em;
+        width: 24em;
+        height: 32em;
+        border: 2px solid #000000;
+        border-radius: 7px;
+        overflow: auto;
+        padding: 0.3em;
+}
+
