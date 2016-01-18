@@ -60,23 +60,6 @@ $(document).ready(
 			const category = $('.category-chooser option:selected').text().toLowerCase();
 			const language = $('.language-chooser option:selected').text().toLowerCase();
 			
-			var raw_day = $('.day-chooser option:selected').text();
-			if(raw_day.length === 1) {
-				raw_day = '0' + raw_day;
-			} else {
-				raw_day = raw_day;
-			}
-			const day = raw_day;
-			
-			var raw_month = $('.month-chooser option:selected').val();
-			console.log(raw_month);
-			if(raw_month.length === 1) {
-				raw_month = '0' + raw_month;
-			} else {
-				raw_month = raw_month;
-			}
-			const month = raw_month;
-			
 			const year = $('.year-chooser option:selected').text();
 
 			insert_loader_animation();
@@ -84,6 +67,24 @@ $(document).ready(
 			console.log('Getting JSON for ' + category);
 
 			if (category === 'persons') {
+			
+				raw_day = $('.day-chooser option:selected').text();
+                        	if(raw_day.length === 1) {
+                                	raw_day = '0' + raw_day;
+                        	} else {
+                                	raw_day = raw_day;
+                        	}
+                        	const day = raw_day;
+
+                        	raw_month = $('.month-chooser option:selected').val();
+                        	console.log(raw_month);
+                       	 	if(raw_month.length === 1) {
+                        	        raw_month = '0' + raw_month;
+                       		 } else {
+                                	raw_month = raw_month;
+                        	}
+                        	const month = raw_month;
+
 				get_json_with_complete_date(category, year, month, day, language).done(
 				result => {
 					console.log('Received JSON result for:|' + category + '|.');
@@ -148,6 +149,7 @@ $(document).ready(
 		});
 	}
 );
+
 
 function build_foundation_item_html(one_foundation) {
 	return '<div class="foundation-item">'+

@@ -32,20 +32,20 @@ CATEGORIES = [
 ]
 
 # paths for hadoop result files
-# PATH_FOUNDATIONS_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_en'
-# PATH_FOUNDATIONS_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_de'
-# PATH_SERIES_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Series_en'
-# PATH_SERIES_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Series_de'
-# PATH_PERSONS_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_en'
-# PATH_PERSONS_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_de'
+PATH_FOUNDATIONS_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_en'
+PATH_FOUNDATIONS_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Foundations_de'
+PATH_SERIES_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Series_en'
+PATH_SERIES_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Series_de'
+PATH_PERSONS_EN = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_en'
+PATH_PERSONS_DE = '/home/hadoop/PigSPARQL_v2.0/dist/Data_prep/Persons_de'
 
-PATH_FOUNDATIONS_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Foundations_en'
-PATH_FOUNDATIONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Foundations_de'
-PATH_SERIES_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_en'
-PATH_SERIES_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_de'
-PATH_PERSONS_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_en'
-PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_reduced_de'
-PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_de'
+#PATH_FOUNDATIONS_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Foundations_en'
+#PATH_FOUNDATIONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Foundations_de'
+#PATH_SERIES_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_en'
+#PATH_SERIES_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Series_de'
+#PATH_PERSONS_EN = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_en'
+#PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_reduced_de'
+#PATH_PERSONS_DE = '/home/xiaolong/development/verteilte-systeme/dayliketoday_clone/hadoop_test_data/Persons_de'
 
 @app.route('/')
 @app.route('/index')
@@ -65,7 +65,7 @@ def what_happened_persons(year, month, day, language):
 	result_data = get_data_from_hadoop('persons', year, month, day, language)
 	print('got result data')
 
-	return jsonify(result_data)
+	return jsonify(result=result_data)
 
 @app.route('/foundations/<year>/<language>', methods=["GET"])
 def what_happened_foundations(year, language):
@@ -103,13 +103,12 @@ def get_data_from_hadoop(category, year, month, day, language):
 		parser = HadoopPersonsParser()
 		lines_attributes = parser.parse(lines)
 
-		return parser.build_json(
-			[elem for elem in lines_attributes if (
+		lines_attributes = [elem for elem in lines_attributes if (
 				elem['birth_date_year'] == year and
 				elem['birth_date_month'] == month and
 				elem['birth_date_day'] == day
 			)]
-		)
+		return lines_attributes
 
 	elif category == 'foundations':
 		file_reader = FoundationsFileReader()
